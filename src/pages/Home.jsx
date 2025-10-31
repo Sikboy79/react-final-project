@@ -4,9 +4,7 @@ import Header from '../components/Header'
 const Home = () => {
   return (
     <>
-    <Header>
-
-    </Header>
+    <Header></Header>
       <div className='body'>
         <div className='search-cards'>
           <div className='search-card'></div>
