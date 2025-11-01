@@ -9,7 +9,7 @@ const Books = () => {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://openlibrary.org/search.json?q=cars"
+          "https://openlibrary.org/search.json?q=man"
         );
         const data = await response.json();
         setData(data);
