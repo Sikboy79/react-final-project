@@ -1,12 +1,29 @@
 import React, { useState, useEffect } from "react";
 import Book from "../components/Book";
 
-const Books = ({ books: initalBooks }) => {
+const Books = () => {
   const [books, setBooks] = useState();
+  const [data, setData] = useState();
 
   useEffect(() => {
-    setBooks(initalBooks);
-  }, [initalBooks]);
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://openlibrary.org/search.json?q=cars"
+        );
+        const data = await response.json();
+        setData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  // useEffect(() => {
+  //   setBooks(initalBooks);
+  // }, [initalBooks]);
 
   function filterBooks(filter) {
     switch (filter) {
@@ -61,9 +78,10 @@ const Books = ({ books: initalBooks }) => {
                 </select>
               </div>
               <div className="books">
-                {books && books.map((book) => {
-                  return <Book book={book} key={book.id} />;
-                })}
+                {books &&
+                  books.map((book) => {
+                    return <Book book={book} key={book.id} />;
+                  })}
               </div>
             </div>
           </div>
