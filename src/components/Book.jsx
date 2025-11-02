@@ -11,7 +11,7 @@ const Book = ({ book }) => {
 
   useEffect(() => {
     const image = new Image();
-    image.src = book.url;
+    image.src = book.cover_i;
     image.onload = () => {
       setTimeout(() => {
         if (mountedRef.current) {
@@ -27,7 +27,7 @@ const Book = ({ book }) => {
 
   return (
     <div className="book">
-      {!img ? (
+      {img ? (
         <>
           <div className="book__img--skeleton"></div>
           <div className="skeleton book__title--skeleton"></div>
@@ -36,21 +36,23 @@ const Book = ({ book }) => {
         </>
       ) : (
         <>
-          <Link to={`/books/${book.id}`}>
+          <Link to={`/books/${book.cover_i}`}>
             <figure className="book__img--wrapper">
-              <img className="book__img" src={img.src} alt="" />
+              <img className="book__img" src={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`} alt="" />
             </figure>
           </Link>
-          <div className="book__title">
-            <Link to={`/books/${book.id}`} className="book__title--link">
-              {book.title}
+          <div className="book_title_wrapper">
+            <Link to={`/books/${book.title}`} className="book__title--link">
+              <div className="book_title"> {book.title}</div>
+              <div className="book_author">Author: {book.author_name}</div>
+              <div className="published_year">Published year: {book.first_publish_year}</div>
             </Link>
           </div>
-          <Ratings rating={book.rating} />
+          {/* <Ratings rating={book.rating} />
           <Price
             originalPrice={book.originalPrice}
             salePrice={book.salePrice}
-          />
+          /> */}
         </>
       )}
     </div>

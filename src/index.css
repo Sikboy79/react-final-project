@@ -428,9 +428,23 @@ FEATURES
   display: flex;
 }
 
-.book__title {
-  font-size: 20px;
-  margin-bottom: 8px;
+.book_title_wrapper {
+  margin-bottom: 10px;
+  align-items: center;
+  padding: 2px, 0;
+}
+
+.book_title {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.book_author {
+  font-size: 14px;
+}
+
+.published_year {
+  font-size: 10px;
 }
 
 .book__title--link {
