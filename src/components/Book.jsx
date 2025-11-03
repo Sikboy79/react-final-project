@@ -2,11 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Price from "./ui/Price";
 import Ratings from "./ui/Ratings";
+import BookInfo from "../pages/BookInfo";
 
 const Book = ({ book }) => {
   const [img, setImg] = useState();
 
-  // When we switch routes dont set image to unmounted component
+  // When routes switch dont set image to unmounted component
   const mountedRef = useRef(true);
 
   useEffect(() => {
@@ -15,15 +16,15 @@ const Book = ({ book }) => {
     image.onload = () => {
       setTimeout(() => {
         if (mountedRef.current) {
-          setImg(image);
+          setImg(img);
         }
       }, 300);
     };
     return () => {
-      // When the component unmounts 
+      // When the component unmounts
       mountedRef.current = false;
     };
-  }, [book.url]);
+  }, [book]);
 
   return (
     <div className="book">
@@ -36,23 +37,27 @@ const Book = ({ book }) => {
         </>
       ) : (
         <>
-          <Link to={`/books/${book.cover_i}`}>
+          <Link to={"/bookinfo"}>
             <figure className="book__img--wrapper">
-              <img className="book__img" src={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`} alt="" />
+              <img
+                className="book__img"
+                src={`https://covers.openlibrary.org/b/olid/${book.cover_edition_key}-L.jpg`}
+                alt=""
+              />
             </figure>
           </Link>
           <div className="book_title_wrapper">
             <Link to={`/books/${book.title}`} className="book__title--link">
               <div className="book_title"> {book.title}</div>
               <div className="book_author">Author: {book.author_name}</div>
-              <div className="published_year">Published year: {book.first_publish_year}</div>
+              <div className="published_year">
+                Published year: {book.first_publish_year}
+              </div>
+              <div className="book_title"> {book.description}</div>
+              <Price />
             </Link>
           </div>
-          {/* <Ratings rating={book.rating} />
-          <Price
-            originalPrice={book.originalPrice}
-            salePrice={book.salePrice}
-          /> */}
+          {/* <Ratings rating={book.rating} /> */}
         </>
       )}
     </div>

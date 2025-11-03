@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import Book from "../components/Book";
 
 
+
 const Books = () => {
-  // const [books, setBooks] = useState();
   const [apiData, setData] = useState();
   const [books, setBookArray] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -31,7 +31,6 @@ const Books = () => {
     };
     fetchData();
   }, []);
-
         useEffect(() => {
         if (apiData?.length > 0) {
           const slicedData = apiData.slice(0, 12); 
@@ -42,16 +41,17 @@ const Books = () => {
             cover_i: item.cover_i,
             first_publish_year: item.first_publish_year,
             key: item.key,
-            cover_edition_key: item.cover_edition_key
+            cover_edition_key: item.cover_edition_key,
+            description: item.description
           }));
           setBookArray(books);
           console.log(books)
         }
-      }, [apiData]); 
+      }, [apiData]);
 
   // useEffect(() => {
-  //   setBooks(initalBooks);
-  // }, [initalBooks]);
+  //   setBooks(apiData);
+  // }, []);
 
   // function filterBooks(filter) {
   //   switch (filter) {

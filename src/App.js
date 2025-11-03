@@ -86,8 +86,8 @@ function App() {
           <Route path="/" element={<Home books={Books} />} />
           <Route path="/books" element={<Books books={Books} />} />
           <Route
-            path="/books/:id"
-            element={<BookInfo books={Books} addItemToCart={addItemToCart} />}
+            path="/bookinfo"
+            element={<BookInfo/>}
           />
           <Route
             path="/cart"

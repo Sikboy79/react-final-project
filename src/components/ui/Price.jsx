@@ -1,6 +1,8 @@
 import React from "react";
 
-const Price = ({ salePrice, originalPrice }) => {
+const Price = () => {
+  const originalPrice = 19.99;
+  const salePrice = 9.99;
   return (
     <div className="book__price">
       {salePrice ? (
