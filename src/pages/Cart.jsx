@@ -21,7 +21,7 @@ const Cart = ({ cart, updateCart, removeItem, totals }) => {
                 {cart.map((item) => {
                   const itemPrice = item.salePrice || item.originalPrice;
                   return (
-                    <div className="cart__item" key={item.id}>
+                    <div className="cart__item" key={item.title}>
                       <div className="cart__book">
                         <img
                           className="cart__book--img"

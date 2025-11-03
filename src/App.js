@@ -86,8 +86,9 @@ function App() {
           <Route path="/" element={<Home books={Books} />} />
           <Route path="/books" element={<Books books={Books} />} />
           <Route
-            path="/bookinfo"
+            path="/bookinfo/:id"
             element={<BookInfo/>}
+            addItemToCart={addItemToCart}
           />
           <Route
             path="/cart"

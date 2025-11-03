@@ -4,16 +4,32 @@ import Ratings from "../components/ui/Ratings";
 import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
-import Book from "../components/Book";
-
 
 const BookInfo = ({ addItemToCart }) => {
-  
   const [books, setBookArray] = useState([]);
-  
-
   const { title } = useParams();
   const book = books.find((book) => +book.title === title);
+  const [cart, setCart] = useState([]);
+
+
+  
+  function addItemToCart(book) {
+    const dupeItem = cart.find((item) => item.id === book.id);
+    setCart((oldCart) =>
+      dupeItem
+        ? [
+            ...oldCart.map((item) => {
+              return item.id === dupeItem.id
+                ? {
+                    ...item,
+                    quantity: item.quantity + 1,
+                  }
+                : item;
+            }),
+          ]
+        : [...oldCart, { ...book, quantity: 1 }]
+    );
+  }
 
   return (
     <div id="books__body">
@@ -21,19 +37,19 @@ const BookInfo = ({ addItemToCart }) => {
         <div className="books__container">
           <div className="row">
             <div className="book__selected--top">
-              <Link to="/books" className="book__link"></Link>
-                <FontAwesomeIcon icon="arrow-left" />
+              <FontAwesomeIcon icon="arrow-left" />
               <Link to="/book" className="book__link">
-                <h2 className="book__selected--title--top">Book</h2>
+                <h2 className="book__selected--title--top">Books</h2>
               </Link>
             </div>
             <div className="book__selected">
               <figure className="book__selected--figure">
-                <img className="book__img" src={"/book"} alt="" />
+                <img className="book__img" src={`https://covers.openlibrary.org/b/olid/{${book.cover_edition_key}}-L.jpg`} alt="" />
               </figure>
               
+
               <div className="book__selected--description">
-                <h2 className="book__selected--title">{book}</h2>
+                <h2 className="book__selected--title">{`${title}`}</h2>
                 {/* <Ratings rating={book.rating} /> */}
                 <div className="book__selected--price">
                   {/* <Price

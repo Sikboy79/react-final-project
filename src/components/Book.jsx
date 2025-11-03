@@ -37,7 +37,7 @@ const Book = ({ book }) => {
         </>
       ) : (
         <>
-          <Link to={"/bookinfo"}>
+          <Link to={"/bookinfo/:id"}>
             <figure className="book__img--wrapper">
               <img
                 className="book__img"
