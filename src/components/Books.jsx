@@ -10,6 +10,8 @@ function Books({
   cover_edition_key,
   cover_i,
   first_publish_year,
+  author_key,
+  key,
 }) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -47,7 +49,7 @@ function Books({
         break;
     }
   }
-
+  console.log(books);
   return (
     <div id="books__body">
       <main id="books__main">
@@ -79,7 +81,9 @@ function Books({
                 </select>
               </div>
               <div className="books">
-                <Book />
+                {books.map((book) => (
+                  <Book key={book.key} {...book} />
+                ))}
               </div>
             </div>
           </div>

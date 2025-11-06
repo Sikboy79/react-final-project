@@ -131,23 +131,7 @@ function App({
         <Nav numberOfItems={numberOfItems()} />
         <Routes>
           <Route path="/" element={<Home books={Books} />} />
-          <Route
-            path="books"
-            element={
-              <Books
-                books={Books}
-                title={title}
-                cover_edition_key={cover_edition_key}
-                author_name={author_name}
-                author_key={author_key}
-                cover_i={cover_i}
-                first_publish_year={first_publish_year}
-                key={key}
-                cover_edition_key_img={cover_edition_key}
-                description={description}
-              />
-            }
-          />
+          <Route path="/books" element={<Books books={mappedBooks} />} />
           <Route
             path="/bookInfo"
             element={
@@ -164,7 +148,7 @@ function App({
                 description={description}
               />
             }
-            addItemToCart={addItemToCart}
+            // addItemToCart={addItemToCart}
           />
           <Route
             path="/cart"

@@ -18,22 +18,23 @@ const BookInfo = ({
   const [books, setBookArray] = useState([]);
   const book = books.find((book) => +book.title === title);
   const [cart, setCart] = useState([]);
+  const [image, setImage] = useState([])
 
-  // useEffect(() => {
-  //   const image = new Image();
-  //   image.src = cover_i;
-  //   image.onload = () => {
-  //     setTimeout(() => {
-  //       if (mountedRef.current) {
-  //         setImg(img);
-  //       }
-  //     }, 300);
-  //   };
-  //   return () => {
-  //     // When the component unmounts
-  //     mountedRef.current = false;
-  //   };
-  // }, [book]);
+  useEffect(() => {
+    const image = new Image();
+    image.src = cover_i;
+    image.onload = () => {
+      setTimeout(() => {
+        if (Image.current) {
+          setImage(image);
+        }
+      }, 300);
+    };
+    return () => {
+      // When the component unmounts
+      image.current = false;
+    };
+  }, [book]);
 
   return (
     <div id="books__body">
