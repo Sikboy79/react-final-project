@@ -14,27 +14,33 @@ const BookInfo = ({
   cover_i,
   originalPrice,
   salePrice,
+  first_publish_year,
 }) => {
   const [books, setBookArray] = useState([]);
   const book = books.find((book) => +book.title === title);
   const [cart, setCart] = useState([]);
-  const [image, setImage] = useState([])
+  const [image, setImage] = useState([]);
+
+  if (!books || books.length === 0) {
+  }
 
   useEffect(() => {
-    const image = new Image();
-    image.src = cover_i;
-    image.onload = () => {
+    const img = new Image();
+    img.src = cover_i;
+    img.onload = () => {
       setTimeout(() => {
         if (Image.current) {
-          setImage(image);
+          setImage(img);
         }
       }, 300);
     };
     return () => {
       // When the component unmounts
-      image.current = false;
+      img.current = false;
     };
-  }, [book]);
+  }, [books]);
+
+  console.log(books)
 
   return (
     <div id="books__body">
@@ -43,33 +49,28 @@ const BookInfo = ({
           <div className="row">
             <div className="book__selected--top">
               <FontAwesomeIcon icon="arrow-left" />
-              <Link to="bookinfo" className="book__link">
+              <Link to="/books" className="book__link">
                 <h2 className="book__selected--title--top">Books</h2>
               </Link>
             </div>
             <div className="book__selected">
-              <figure className="book__selected--figure">
-                <img
-                  className="book__img"
-                  src={`https://covers.openlibrary.org/b/olid/${cover_edition_key}-L.jpg`}
-                  alt=""
-                />
-              </figure>
-
               <div className="book__selected--description">
-                <h2 className="book__selected--title">{`${title}`}</h2>
-                {/* <Ratings rating={book.rating} /> */}
-                <div className="book__selected--price">
-                  <Price originalPrice={originalPrice} salePrice={salePrice} />
-                </div>
-                <div className="book__summary">
-                  <div className="book_title"> {`${title}`}</div>
-                  <div className="book_author">Author: {`${author_name}`}</div>
-                  {/* <div className="published_year">
-                    Published year: {`${first_publish_year}`}
-                  </div> */}
-                  <div className="book_title"> {`${description}`}</div>
-                </div>
+                <figure className="book__img--wrapper">
+                  <>
+                    <div>
+                      <img
+                        className="book__img"
+                        src={`https://covers.openlibrary.org/b/olid/book.${cover_edition_key}-L.jpg`}
+                        alt=""
+                      />
+                     <div>Title:{`${title}`}</div>
+                      <div>Authors name:{books.author_name}</div>
+                      <div>published year:{books.first_publish_year}</div>
+                      <div>Description:{books.description}</div>
+                      <Price />
+                    </div>
+                  </>
+                </figure>
                 <button className="btn" onClick={() => addItemToCart(book)}>
                   Add to Cart
                 </button>

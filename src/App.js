@@ -10,16 +10,17 @@ import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import axios from "axios";
 
-function App({ books, addItemToCart}) {
+function App({
+}) {
   const [cart, setCart] = useState([]);
   const [data, setData] = useState([]);
-  const [mappedBooks, setBooks] = useState([]);
+  const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   async function fetchData() {
     const { data } = await axios.get(
-      "https://openlibrary.org/search.json?q=test" // make this dynamic
+      "https://openlibrary.org/search.json?q=man" // make this dynamic
     );
     setData(data.docs);
   }
@@ -28,7 +29,7 @@ function App({ books, addItemToCart}) {
   }, []);
 
   useEffect(() => {
-    if (!books || books.length > 0) {
+    if (!data.docs || data.docs.length === 0) {
       const slicedData = data.slice(0, 12);
       const books = slicedData.map((item) => ({
         title: item.title,
@@ -41,15 +42,14 @@ function App({ books, addItemToCart}) {
         description: item.description,
       }));
       setBooks(books);
-      console.log(slicedData);
     }
-  }, [data, setBooks]);
-
+  }, [setBooks, data]);
   useEffect(() => {
     setBooks({ data });
   }, []);
 
   function addItemToCart(book) {
+    console.log("adding to cart:".book);
     const dupeItem = cart.find((item) => item.title === book.title);
     setCart((oldCart) =>
       dupeItem
@@ -115,15 +115,20 @@ function App({ books, addItemToCart}) {
       total,
     };
   }
-
   return (
     <Router>
       <div className="App">
         <Nav numberOfItems={numberOfItems()} />
         <Routes>
           <Route path="/" element={<Home books={Books} />} />
-          <Route path="/books" element={<Books books={books} addItemToCart={addItemToCart} />} />
-          <Route path="/bookInfo" element={<BookInfo books={mappedBooks} addItemToCart={addItemToCart}/>} />
+          <Route
+            path="/books"
+            element={<Books books={books} />}
+          />
+          <Route
+            path="/bookInfo"
+            element={<BookInfo books={books} addItemToCart={addItemToCart} />}
+          />
           <Route
             path="/cart"
             element={

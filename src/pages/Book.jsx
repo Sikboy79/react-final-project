@@ -4,36 +4,35 @@ import Price from "../components/ui/Price";
 import Ratings from "../components/ui/Ratings";
 import BookInfo from "./BookInfo";
 
-const Book = ({
-  book,
+function Book({
+  books,
   title,
   author_name,
   description,
   cover_edition_key,
   cover_i,
-  first_publish_year
-}) => {
+  first_publish_year,
+}) {
   const [img, setImg] = useState();
-  console.log(title)
-
-  // When routes switch dont set image to unmounted component
-  const mountedRef = useRef(true);
-
-  useEffect(() => {
-    const image = new Image();
-    image.src = `${cover_i}`;
-    image.onload = () => {
-      setTimeout(() => {
-        if (mountedRef.current) {
-          setImg(img);
-        }
-      }, 300);
-    };
-    return () => {
-      // When the component unmounts
-      mountedRef.current = false;
-    };
-  }, [book]);
+  if (!books || books.length === 0) {
+  }
+   // When routes switch dont set image to unmounted component
+    const mountedRef = useRef(true);
+    useEffect(() => {
+      const img = new Image();
+      img.src = "https://covers.openlibrary.org/b/olid/book.cover_edition_key-L.jpg";
+      img.onload = () => {
+        setTimeout(() => {
+          if (mountedRef.current) {
+            setImg(img);
+          }
+        }, 300);
+      };
+      return () => {
+        // When the component unmounts
+        mountedRef.current = false;
+      };
+    }, [books]);
 
   return (
     <div className="book">
@@ -48,29 +47,30 @@ const Book = ({
         <>
           <Link to={`/bookinfo`}>
             <figure className="book__img--wrapper">
-              <img
-                className="book__img"
-                src={`https://covers.openlibrary.org/b/olid/book.${cover_edition_key}-L.jpg`}
-                alt=""
-              />
+              <>
+                {books.map((books) => (
+                  <div className= "book_cards"
+                  key={books.key}>
+                    <img
+                      className="book__img"
+                      src={`https://covers.openlibrary.org/b/olid/book.${cover_edition_key}-L.jpg`}
+                      alt=""
+                    />
+                    Title:{books.title}
+                    Authors name:{books.author_name}
+                    {books.first_publish_year}
+                    Description:{books.description}
+                    <Price />
+                  </div>
+                ))}
+              </>
             </figure>
           </Link>
-          <div className="book_title_wrapper">
-            <Link to={"/bookinfo"} className="book__title--link">
-              <div className="book_title"> {`${title}`}</div>
-              <div className="book_author">Author: {`${author_name}`}</div>
-              <div className="published_year">
-                Published year: {`${first_publish_year}`}
-              </div>
-              <div className="book_title"> {`${description}`}</div>
-              <Price />
-            </Link>
-          </div>
           {/* <Ratings rating={rating} /> */}
         </>
       )}
     </div>
   );
-};
+}
 
 export default Book;
