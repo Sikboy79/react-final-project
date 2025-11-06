@@ -1,18 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Book from "./Book";
-import BookInfo from "./BookInfo";
 
-function Books({
-  book,
-  title,
-  author_name,
-  description,
-  cover_edition_key,
-  cover_i,
-  first_publish_year,
-  author_key,
-  key,
-}) {
+function Books({}) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -49,7 +38,8 @@ function Books({
         break;
     }
   }
-  console.log(books);
+  console.log(books)
+
   return (
     <div id="books__body">
       <main id="books__main">

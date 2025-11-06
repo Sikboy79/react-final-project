@@ -3,23 +3,14 @@ import Home from "./pages/Home";
 import "./App.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Books from "./components/Books";
-import BookInfo from "./components/BookInfo";
+import Books from "./pages/Books";
+import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import axios from "axios";
 
-function App({
-  title,
-  author_name,
-  author_key,
-  cover_i,
-  first_publish_year,
-  key,
-  cover_edition_key,
-  description,
-}) {
+function App({ books, addItemToCart}) {
   const [cart, setCart] = useState([]);
   const [data, setData] = useState([]);
   const [mappedBooks, setBooks] = useState([]);
@@ -37,7 +28,7 @@ function App({
   }, []);
 
   useEffect(() => {
-    if (data?.length > 0) {
+    if (!books || books.length > 0) {
       const slicedData = data.slice(0, 12);
       const books = slicedData.map((item) => ({
         title: item.title,
@@ -50,7 +41,7 @@ function App({
         description: item.description,
       }));
       setBooks(books);
-      console.log(books);
+      console.log(slicedData);
     }
   }, [data, setBooks]);
 
@@ -131,25 +122,8 @@ function App({
         <Nav numberOfItems={numberOfItems()} />
         <Routes>
           <Route path="/" element={<Home books={Books} />} />
-          <Route path="/books" element={<Books books={mappedBooks} />} />
-          <Route
-            path="/bookInfo"
-            element={
-              <BookInfo
-                books={Books}
-                title={title}
-                cover_edition_key={cover_edition_key}
-                author_name={author_name}
-                author_key={author_key}
-                cover_i={cover_i}
-                first_publish_year={first_publish_year}
-                key={key}
-                cover_edition_key_img={cover_edition_key}
-                description={description}
-              />
-            }
-            // addItemToCart={addItemToCart}
-          />
+          <Route path="/books" element={<Books books={books} addItemToCart={addItemToCart} />} />
+          <Route path="/bookInfo" element={<BookInfo books={mappedBooks} addItemToCart={addItemToCart}/>} />
           <Route
             path="/cart"
             element={

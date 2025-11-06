@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import Price from "./ui/Price";
-import Ratings from "./ui/Ratings";
+import Price from "../components/ui/Price";
+import Ratings from "../components/ui/Ratings";
 import BookInfo from "./BookInfo";
 
 const Book = ({

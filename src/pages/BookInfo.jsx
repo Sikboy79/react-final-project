@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import Ratings from "./ui/Ratings";
-import Price from "./ui/Price";
+import Ratings from "../components/ui/Ratings";
+import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
