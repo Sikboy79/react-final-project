@@ -17,9 +17,12 @@ function Book({
 
    // When routes switch dont set image to unmounted component
     const mountedRef = useRef(true);
+    if (!books || books.length === 0) {
+     <p>Loading books...</p>;
+    }
     useEffect(() => {
       const img = new Image();
-      img.src = `https://covers.openlibrary.org/b/olid/book.${cover_edition_key}-L.jpg`;
+      img.src = `https://covers.openlibrary.org/b/olid/${cover_edition_key}-L.jpg`;
       img.onload = () => {
         setTimeout(() => {
           if (mountedRef.current) {
@@ -33,9 +36,6 @@ function Book({
       };
     }, [books]);
 
-    if (!books || books.length === 0) {
-    return <p>Loading books...</p>;
-  }
 
   return (
     <div className="book">
@@ -56,7 +56,7 @@ function Book({
                   key={books.key}>
                     <img
                       className="book__img"
-                      src={`https://covers.openlibrary.org/b/olid/book.OL8914233M-L.jpg`}
+                      src={`https://covers.openlibrary.org/b/olid/${ books.cover_edition_key }-L.jpg`}
                       alt=""
                     />
                     <div className="book__selected--title">Title:{books.title}</div>

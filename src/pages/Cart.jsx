@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import EmptyCart from "../assets/empty_cart.svg";
 
-const Cart = ({ cart, updateCart, removeItem, totals }) => {
+const Cart = ({ cart, updateCart, removeItem, totals, title }) => {
   return (
     <div id="books__body">
       <main id="books__main">
@@ -21,7 +21,7 @@ const Cart = ({ cart, updateCart, removeItem, totals }) => {
                 {cart.map((item) => {
                   const itemPrice = item.salePrice || item.originalPrice;
                   return (
-                    <div className="cart__item" key={item.title}>
+                    <div className="cart__item" key={title}>
                       <div className="cart__book">
                         <img
                           className="cart__book--img"
@@ -32,9 +32,9 @@ const Cart = ({ cart, updateCart, removeItem, totals }) => {
                           <span className="cart__book--title">
                             {item.title}
                           </span>
-                          <span className="cart__book--price">
+                          {/* <span className="cart__book--price">
                             ${itemPrice.toFixed(2)}
-                          </span>
+                          </span> */}
                           <button
                             className="cart__book--remove"
                             onClick={() => removeItem(item)}

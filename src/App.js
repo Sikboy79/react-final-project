@@ -17,22 +17,22 @@ function App({}) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+
+  useEffect(()=> {
   async function fetchData() {
     try {
       setLoading(true); // set loading true before loading
       const { data } = await axios.get(
-        "https://openlibrary.org/search.json?q=man" // make this dynamic
+        "https://openlibrary.org/search.json?q=woman" // make this dynamic
       );
       setData(data.docs);
       setError(null);
     } catch (err) {
-      setError(err); //clear previous error
-      setData([]); //clear error data
+      setError("failed to load books"); //clear previous error
     } finally {
       setLoading(false);
     }
   }
-  useEffect(() => {
     fetchData();
   }, []);
 
@@ -61,12 +61,12 @@ function App({}) {
 
   function addItemToCart(book) {
     console.log("adding to cart:".book);
-    const dupeItem = cart.find((item) => item.title === book.title);
+    const dupeItem = cart.find((item) => item.key && book.key);
     setCart((oldCart) =>
       dupeItem
         ? [
             ...oldCart.map((item) => {
-              return item.id === dupeItem.id
+              return item.key === dupeItem.key
                 ? {
                     ...item,
                     quantity: item.quantity + 1,

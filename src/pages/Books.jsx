@@ -11,6 +11,10 @@ function Books({ books, title }) {
     setSearch(event.target.value);
   };
 
+  if (!books || books.length === 0) {
+    return <p>Loading books...</p>;
+  }
+
   console.log(books);
 
   function filterBooks(filter) {
@@ -44,10 +48,6 @@ function Books({ books, title }) {
     }
   }
 
-  if (!books || books.length === 0) {
-    return <p>Loading books...</p>;
-  }
-
   return (
     <div id="books__body">
       <main id="books__main">
@@ -58,7 +58,6 @@ function Books({ books, title }) {
                 <h2 className="section__title books__header--title">
                   All Books
                 </h2>
-
                 <input
                   type="text"
                   className="search_info_input"

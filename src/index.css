@@ -378,9 +378,8 @@ FEATURES
 }
 
 .authors_name {
-  display: flex;
-  flex-wrap: wrap;
-  text-overflow: hidden;
+  overflow-wrap: break-word;
+  max-width: 90%;
 }
 
 .book:hover {
@@ -388,7 +387,7 @@ FEATURES
 }
 
 .book__img {
-  max-height: 150px;
+  max-height: 350px;
   max-width: 300px;
   transition: all 300ms ease;
 }
