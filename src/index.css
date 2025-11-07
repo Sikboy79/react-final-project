@@ -78,14 +78,20 @@ button:active {
 .btn {
   background-color: #7342d6;
   color: white;
+  margin-top: 50px;
   padding: 12px 24px;
   font-size: 20px;
   border-radius: 4px;
   border: none;
 }
 
+.black {
+  font-size: 14px;
+  font-weight: bold;
+}
+
 .purple {
-  color: #7342d6;
+  color: #5e10f9;
 }
 
 .logo {
@@ -100,6 +106,7 @@ button:active {
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  background-color: #e7e6e8;
 }
 
 .nav__link {
@@ -107,7 +114,7 @@ button:active {
   font-size: 20px;
   font-weight: bold;
   padding: 8px;
-  color: #7342d6;
+  color: #5a0ef3;
 }
 
 .nav__list {
@@ -122,7 +129,7 @@ button:active {
 }
 
 .nav__link--primary {
-  border: 2px solid #7342d6;
+  border: 2px solid #5a0ef3;
   border-radius: 4px;
 }
 
@@ -134,7 +141,7 @@ button:active {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #7342d6;
+  color: #5a0ef3;
   font-size: 20px;
   position: relative;
   margin-left: 8px;
@@ -248,12 +255,10 @@ header {
 .header__img--wrapper {
   padding: 20px;
 
-  /* Added this after the tutorial to 
-  show it over the wave on larger screens */
+  
   z-index: 50;
 
-  /* Added this after the tutorial to 
-  make landing page responsive on laptops */
+  
   max-height: 50vh;
 }
 
@@ -262,7 +267,10 @@ header {
 }
 
 .books__container {
+  max-width: 1200px;
+  background-color: #88aefa44;
   padding: 24px 0;
+  margin: 0 auto;
 }
 
 .row {
@@ -363,16 +371,15 @@ FEATURES
   background-color: rgba(115, 66, 214, 0.1);
 }
 
-.books {
+
+.books-list {
   display: flex;
   flex-wrap: wrap;
   margin: 0 -24px;
-  max-width: 100%;
-  align-items: center;
-  justify-content: space-between;
 }
 
 .book {
+  width: 25%;
   padding: 24px;
   transition: all 300ms ease;
 }
@@ -387,8 +394,8 @@ FEATURES
 }
 
 .book__img {
-  max-height: 350px;
-  max-width: 300px;
+  max-height: 320px;
+  max-width: 250px;
   transition: all 300ms ease;
 }
 
@@ -435,6 +442,22 @@ FEATURES
   margin-bottom: 10px;
   align-items: center;
   padding: 2px, 0;
+}
+
+.img {
+  height: 75%;
+  width: 50%;
+}
+
+.book_info {
+  display: flex;
+}
+
+.book_description {
+  margin-left: 100px;
+  margin-bottom: 50px;
+  align-items: center;
+  justify-content: center;
 }
 
 .book_title {

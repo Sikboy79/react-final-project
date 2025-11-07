@@ -10,7 +10,7 @@ import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import axios from "axios";
 
-function App({}) {
+function App() {
   const [cart, setCart] = useState([]);
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -19,45 +19,24 @@ function App({}) {
 
 
   useEffect(()=> {
-  async function fetchData() {
+  async function fetchBooks() {
     try {
       setLoading(true); // set loading true before loading
       const { data } = await axios.get(
         "https://openlibrary.org/search.json?q=woman" // make this dynamic
       );
-      setData(data.docs);
-      setError(null);
-    } catch (err) {
-      setError("failed to load books"); //clear previous error
-    } finally {
-      setLoading(false);
+      // const data = await res.json();
+      setBooks(data.docs || []);
+      } catch (err) {
+        setError("failed to load books"); //clear previous error
+      } finally {
+        setLoading(false);
+      }
     }
-  }
-    fetchData();
+    fetchBooks();
   }, []);
+  console.log(data)
 
-  useEffect(() => {
-    if (!data.docs || data.docs.length === 0) {
-      // checks if data exists
-      const slicedData = data.slice(0, 12);
-      const books = slicedData.map((item) => ({
-        title: item.title,
-        author_name: item.author_name,
-        author_key: item.author_key,
-        cover_i: item.cover_i,
-        first_publish_year: item.first_publish_year,
-        key: item.key,
-        cover_edition_key: item.cover_edition_key,
-        description: item.description,
-      }));
-      setBooks(books);
-    }
-    if (!books || books.length === 0) {
-    }
-  }, [setBooks, data]);
-  useEffect(() => {
-    setBooks({ data });
-  }, []);
 
   function addItemToCart(book) {
     console.log("adding to cart:".book);
@@ -126,8 +105,8 @@ function App({}) {
           <Route path="/" element={<Home books={Books} />} />
           <Route path="/books" element={<Books books={books} />} />
           <Route
-            path="/bookInfo"
-            element={<BookInfo books={books} addItemToCart={addItemToCart} />}
+            path="/book/:id"
+            element={<BookInfo books={books}/>}
           />
           <Route
             path="/cart"

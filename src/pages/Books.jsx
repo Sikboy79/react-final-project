@@ -2,20 +2,21 @@ import React, { useState, useEffect } from "react";
 import Book from "./Book";
 
 
-function Books({ books, title }) {
+function Books({ books }) {
   const [booksRatings, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState(`${title}`);
+  const [search, setSearch] = useState(books.title);
   const onChange = (event) => {
     setSearch(event.target.value);
   };
 
-  if (!books || books.length === 0) {
+  if (!Array.isArray({ books })) {
+    if (!Array.isArray(books) || books.length === 0) { 
     return <p>Loading books...</p>;
   }
 
-  console.log(books);
+  
 
   function filterBooks(filter) {
     switch (filter) {
@@ -64,21 +65,13 @@ function Books({ books, title }) {
                   placeholder="Book title"
                   onChange="setSearch(event)"
                 ></input>
-                <select
-                  id="filter"
-                  onChange={(event) => filterBooks(event.target.value)}
-                  defaultValue={"DEFAULT"}
-                >
-                  <option value="DEFAULT" disabled>
-                    Sort
-                  </option>
-                  <option value="LOW_TO_HIGH">Price, Low to High</option>
-                  <option value="HIGH_TO_LOW">Price, High to Low</option>
-                  <option value="RATING">Rating</option>
-                </select>
               </div>
-              <div className="books">
-                <Book  books={books} />
+              <div className="books-list">
+                {books.map((book) => (
+                  <Book 
+                  key={book.cover_edition_key || book.cover_i || book.title}
+                  book={book} />
+                ))}
               </div>
             </div>
           </div>
@@ -86,6 +79,6 @@ function Books({ books, title }) {
       </main>
     </div>
   );
-}
+}}
 
 export default Books;
