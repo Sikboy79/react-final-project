@@ -10,8 +10,7 @@ import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 import axios from "axios";
 
-function App({
-}) {
+function App({}) {
   const [cart, setCart] = useState([]);
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
@@ -19,10 +18,19 @@ function App({
   const [error, setError] = useState(null);
 
   async function fetchData() {
-    const { data } = await axios.get(
-      "https://openlibrary.org/search.json?q=man" // make this dynamic
-    );
-    setData(data.docs);
+    try {
+      setLoading(true); // set loading true before loading
+      const { data } = await axios.get(
+        "https://openlibrary.org/search.json?q=man" // make this dynamic
+      );
+      setData(data.docs);
+      setError(null);
+    } catch (err) {
+      setError(err); //clear previous error
+      setData([]); //clear error data
+    } finally {
+      setLoading(false);
+    }
   }
   useEffect(() => {
     fetchData();
@@ -30,6 +38,7 @@ function App({
 
   useEffect(() => {
     if (!data.docs || data.docs.length === 0) {
+      // checks if data exists
       const slicedData = data.slice(0, 12);
       const books = slicedData.map((item) => ({
         title: item.title,
@@ -42,6 +51,8 @@ function App({
         description: item.description,
       }));
       setBooks(books);
+    }
+    if (!books || books.length === 0) {
     }
   }, [setBooks, data]);
   useEffect(() => {
@@ -96,14 +107,6 @@ function App({
     return counter;
   }
 
-  function numberOfItems() {
-    let counter = 0;
-    cart.forEach((item) => {
-      counter += +item.quantity;
-    });
-    return counter;
-  }
-
   function calcPrices() {
     let total = 0;
     cart.forEach((item) => {
@@ -121,10 +124,7 @@ function App({
         <Nav numberOfItems={numberOfItems()} />
         <Routes>
           <Route path="/" element={<Home books={Books} />} />
-          <Route
-            path="/books"
-            element={<Books books={books} />}
-          />
+          <Route path="/books" element={<Books books={books} />} />
           <Route
             path="/bookInfo"
             element={<BookInfo books={books} addItemToCart={addItemToCart} />}
@@ -146,5 +146,4 @@ function App({
     </Router>
   );
 }
-
 export default App;

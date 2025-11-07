@@ -11,9 +11,6 @@ function Books({ books, title }) {
     setSearch(event.target.value);
   };
 
-  if (!books || books.length === 0) {
-    return <p>Loading books...</p>;
-  }
   console.log(books);
 
   function filterBooks(filter) {
@@ -47,6 +44,10 @@ function Books({ books, title }) {
     }
   }
 
+  if (!books || books.length === 0) {
+    return <p>Loading books...</p>;
+  }
+
   return (
     <div id="books__body">
       <main id="books__main">
@@ -66,7 +67,7 @@ function Books({ books, title }) {
                 ></input>
                 <select
                   id="filter"
-                  // onChange={(event) => filterBooks(event.target.value)}
+                  onChange={(event) => filterBooks(event.target.value)}
                   defaultValue={"DEFAULT"}
                 >
                   <option value="DEFAULT" disabled>

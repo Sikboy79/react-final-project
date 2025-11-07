@@ -42,6 +42,8 @@ const BookInfo = ({
 
   console.log(books)
 
+  
+
   return (
     <div id="books__body">
       <main id="books__main">
@@ -59,12 +61,12 @@ const BookInfo = ({
                   <>
                     <div>
                       <img
-                        className="book__img"
+                        className="book__selected--figure"
                         src={`https://covers.openlibrary.org/b/olid/book.${cover_edition_key}-L.jpg`}
                         alt=""
                       />
-                     <div>Title:{`${title}`}</div>
-                      <div>Authors name:{books.author_name}</div>
+                     <h2 className="book__selected--title">Title:{`${title}`}</h2>
+                      <h2 className="authors_name">Authors name:{books.author_name}</h2>
                       <div>published year:{books.first_publish_year}</div>
                       <div>Description:{books.description}</div>
                       <Price />
