@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import EmptyCart from "../assets/empty_cart.svg";
 
-const Cart = ({ cart, updateCart, removeItem, totals, title }) => {
+const Cart = ({ cart, updateCart, removeItem, totals, title, id }) => {
   return (
     <div id="books__body">
       <main id="books__main">
@@ -18,26 +18,26 @@ const Cart = ({ cart, updateCart, removeItem, totals, title }) => {
                 <span className="cart__total">Price</span>
               </div>
               <div className="cart__body">
-                {cart.map((item) => {
-                  const itemPrice = item.salePrice || item.originalPrice;
+                {cart.map(() => {
+                  const itemPrice = id.salePrice || id.originalPrice;
                   return (
-                    <div className="cart__item" key={title}>
+                    <div className="cart__item" key={id.title}>
                       <div className="cart__book">
                         <img
                           className="cart__book--img"
-                          src={item.url}
+                          src={id.url}
                           alt=""
                         />
                         <div className="cart__book--info">
                           <span className="cart__book--title">
-                            {item.title}
+                            {id.title}
                           </span>
-                          {/* <span className="cart__book--price">
+                          <span className="cart__book--price">
                             ${itemPrice.toFixed(2)}
-                          </span> */}
+                          </span>
                           <button
                             className="cart__book--remove"
-                            onClick={() => removeItem(item)}
+                            onClick={() => removeItem(id)}
                           >
                             Remove
                           </button>
@@ -49,14 +49,14 @@ const Cart = ({ cart, updateCart, removeItem, totals, title }) => {
                           className="cart__input"
                           min={0}
                           max={99}
-                          value={item.quantity}
+                          value={id.quantity}
                           onChange={(event) =>
-                            updateCart(item, event.target.value)
+                            updateCart(id, event.target.value)
                           }
                         />
                       </div>
                       <div className="cart__total">
-                        ${(itemPrice * item.quantity).toFixed(2)}
+                        ${(id.Price * id.quantity).toFixed(2)}
                       </div>
                     </div>
                   );

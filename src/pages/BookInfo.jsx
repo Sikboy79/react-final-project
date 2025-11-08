@@ -4,6 +4,7 @@ import Ratings from "../components/ui/Ratings";
 import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
+import Cart from "./Cart";
 
 function BookInfo({ books }) {
   const { id } = useParams();
@@ -31,62 +32,66 @@ function BookInfo({ books }) {
       img.current = false;
     };
   }, [books]);
+
   if (!book) {
     return <p>Book not found or loading...</p>;
   }
 
-  function addItemToCart(book) {
-    console.log("adding to cart:".book);
-    const dupeItem = cart.find((item) => item.id && book.id);
+  function addItemToCart(b) {
+    console.log("adding to cart:");
+    const dupeItem = cart.find((book) => b.title && id.title );
     setCart((oldCart) =>
       dupeItem
         ? [
-            ...oldCart.map((item) => {
-              return item.key === dupeItem.key
+            ...oldCart.map((cart) => {
+              return book.title === dupeItem.book.title
                 ? {
-                    ...item,
-                    quantity: item.quantity + 1,
+                    ...id,
+                    quantity: book.title.quantity + 1,
                   }
-                : item;
+                : id;
             }),
           ]
         : [...oldCart, { ...book, quantity: 1 }]
     );
   }
+  
+  console.log(cart)
+  console.log(book)
 
-  function updateCart(item, newQuantity) {
+  function updateCart(id, newQuantity) {
     setCart((oldCart) =>
-      oldCart.map((oldItem) => {
-        if (oldItem.title === item.tile) {
+      oldCart.map((oldId) => {
+        if (oldId.title === id.tile) {
           return {
-            ...oldItem,
+            ...oldId,
             quantity: newQuantity,
           };
         } else {
-          return oldItem;
+          return oldId;
         }
       })
     );
   }
 
-  function removeItem(item) {
+  function removeItem(id) {
     setCart((oldCart) =>
-      oldCart.filter((cartItem) => cartItem.title !== item.title)
+      oldCart.filter((cartId) => cartId.title !== id.title)
     );
   }
 
   function numberOfItems() {
     let counter = 0;
-    cart.forEach((item) => {
-      counter += +item.quantity;
+    cart.forEach((id) => {
+      counter += +id.quantity;
     });
     return counter;
   }
 
   function calcPrices() {
     let total = 0;
-    cart.forEach((item) => {
-      total += (item.salePrice || item.originalPrice) * item.quantity;
+    cart.forEach((id) => {
+      total += (id.salePrice || id.originalPrice) * id.quantity;
     });
     return {
       subtotal: total * 0.9,
@@ -124,14 +129,14 @@ function BookInfo({ books }) {
                       <h2>{book.title}</h2>
                       <p className="book_author">
                         {" "}
-                        <span className="black">Author:</span>
+                        <span className="black">Author:  </span>
                         {Array.isArray(book.author_name)
                           ? book.author_name[0]
                           : book.author_name}
                       </p>
                       <p className="published">
                         {" "}
-                        <span className="black">First published</span>
+                        <span className="black">First published:  </span>
                         {Array.isArray(book.first_publish_year)
                           ? book.first_publish_year[0]
                           : book.first_publish_year}
@@ -139,16 +144,17 @@ function BookInfo({ books }) {
                       <div className="book_description-text">
                         <p>
                           {" "}
-                          <span className="black">Book Description:</span>
+                          <span className="black">Book Description:  </span>
                           Lorem ipsum dolor sit amet consectetur adipisicing
                           elit. Fugit in dolor incidunt labore, voluptate
                           aliquid illum facere, pariatur repellendus ab sit
                           fugiat eligendi hic ad qui aperiam cumque? Animi,
                           odit.
                         </p>
-                        <button className="btn" onClick={() => addItemToCart(book)}>
+                        <button className="btn" onClick={() => addItemToCart(id)}>
                       Add to Cart
                     </button>
+                    {/* <Cart /> */}
                       </div>
                     </div>
                   </div>

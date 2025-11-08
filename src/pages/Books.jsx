@@ -3,7 +3,6 @@ import Book from "./Book";
 
 
 function Books({ books }) {
-  const [booksRatings, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [search, setSearch] = useState(books.title);
@@ -14,39 +13,6 @@ function Books({ books }) {
   if (!Array.isArray({ books })) {
     if (!Array.isArray(books) || books.length === 0) { 
     return <p>Loading books...</p>;
-  }
-
-  
-
-  function filterBooks(filter) {
-    switch (filter) {
-      case "LOW_TO_HIGH":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (a.salePrice || a.originalPrice) -
-                (b.salePrice || b.originalPrice)
-            )
-        );
-      case "HIGH_TO_LOW":
-        return setBooks(
-          books
-            .slice()
-            .sort(
-              (a, b) =>
-                (b.salePrice || b.originalPrice) -
-                (a.salePrice || a.originalPrice)
-            )
-        );
-      case "RATING":
-        return setBooks(
-          booksRatings.slice().sort((a, b) => b.rating - a.rating)
-        );
-      default:
-        break;
-    }
   }
 
   return (

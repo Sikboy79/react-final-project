@@ -17,16 +17,15 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-
-  useEffect(()=> {
-  async function fetchBooks() {
-    try {
-      setLoading(true); // set loading true before loading
-      const { data } = await axios.get(
-        "https://openlibrary.org/search.json?q=woman" // make this dynamic
-      );
-      // const data = await res.json();
-      setBooks(data.docs || []);
+  useEffect(() => {
+    async function fetchBooks() {
+      try {
+        setLoading(true); // set loading true before loading
+        const { data } = await axios.get(
+          "https://openlibrary.org/search.json?q=woman" // make this dynamic
+        );
+        // const data = await res.json();
+        setBooks(data.docs || []);
       } catch (err) {
         setError("failed to load books"); //clear previous error
       } finally {
@@ -35,25 +34,39 @@ function App() {
     }
     fetchBooks();
   }, []);
-  console.log(data)
+  console.log(data);
 
+  // function addItemToCart(book) {
+  //   console.log("adding to cart:".book);
+  //   const dupeItem = cart.find((item) => item.key && book.key);
+  //   setCart((oldCart) =>
+  //     dupeItem
+  //       ? [
+  //           ...oldCart.map((item) => {
+  //             return item.key === dupeItem.key
+  //               ? {
+  //                   ...item,
+  //                   quantity: item.quantity + 1,
+  //                 }
+  //               : item;
+  //           }),
+  //         ]
+  //       : [...oldCart, { ...book, quantity: 1 }]
+  //   );
+  // }
 
-  function addItemToCart(book) {
-    console.log("adding to cart:".book);
-    const dupeItem = cart.find((item) => item.key && book.key);
+  function updateCart(id, newQuantity) {
     setCart((oldCart) =>
-      dupeItem
-        ? [
-            ...oldCart.map((item) => {
-              return item.key === dupeItem.key
-                ? {
-                    ...item,
-                    quantity: item.quantity + 1,
-                  }
-                : item;
-            }),
-          ]
-        : [...oldCart, { ...book, quantity: 1 }]
+      oldCart.map((oldId) => {
+        if (oldId.title === id.tile) {
+          return {
+            ...oldId,
+            quantity: newQuantity,
+          };
+        } else {
+          return oldId;
+        }
+      })
     );
   }
 
@@ -106,7 +119,13 @@ function App() {
           <Route path="/books" element={<Books books={books} />} />
           <Route
             path="/book/:id"
-            element={<BookInfo books={books}/>}
+            element={
+              <BookInfo
+                books={books}
+                addItemToCart={books.title}
+                updateCart={books.title}
+              />
+            }
           />
           <Route
             path="/cart"
