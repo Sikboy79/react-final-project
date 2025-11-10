@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Price from "../components/ui/Price";
-import Ratings from "../components/ui/Ratings";
 import BookInfo from "./BookInfo";
 
 function Book({ book }) {
@@ -43,13 +42,13 @@ function Book({ book }) {
         <div className="book_card">
           <Link to={`/book/${id}`}>
             <img
-            src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-M.jpg`: "fallback.jpg"} 
+            src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`: "fallback.jpg"} 
             alt={book.title}
             />
             <h3>{book.title}</h3>
-            <p>{Array.isArray(book.author_name) ? book.author_name[0] : book.author_name}</p>
+            <p>{Array.isArray(book.author_name) ? book.author_name[0] : book.author_name} </p>
+            <Price/>
           </Link>
-          {/* <Ratings rating={rating} /> */}
         </div>
       )}
     </div>

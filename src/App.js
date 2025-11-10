@@ -24,7 +24,6 @@ function App() {
         const { data } = await axios.get(
           "https://openlibrary.org/search.json?q=woman" // make this dynamic
         );
-        // const data = await res.json();
         setBooks(data.docs || []);
       } catch (err) {
         setError("failed to load books"); //clear previous error
@@ -34,26 +33,6 @@ function App() {
     }
     fetchBooks();
   }, []);
-  console.log(data);
-
-  // function addItemToCart(book) {
-  //   console.log("adding to cart:".book);
-  //   const dupeItem = cart.find((item) => item.key && book.key);
-  //   setCart((oldCart) =>
-  //     dupeItem
-  //       ? [
-  //           ...oldCart.map((item) => {
-  //             return item.key === dupeItem.key
-  //               ? {
-  //                   ...item,
-  //                   quantity: item.quantity + 1,
-  //                 }
-  //               : item;
-  //           }),
-  //         ]
-  //       : [...oldCart, { ...book, quantity: 1 }]
-  //   );
-  // }
 
   function updateCart(id, newQuantity) {
     setCart((oldCart) =>
@@ -115,7 +94,7 @@ function App() {
       <div className="App">
         <Nav numberOfItems={numberOfItems()} />
         <Routes>
-          <Route path="/" element={<Home books={Books} />} />
+          <Route path="/" element={<Home />} />
           <Route path="/books" element={<Books books={books} />} />
           <Route
             path="/book/:id"
@@ -131,6 +110,7 @@ function App() {
             path="/cart"
             element={
               <Cart
+                books={books}
                 cart={cart}
                 updateCart={updateCart}
                 removeItem={removeItem}

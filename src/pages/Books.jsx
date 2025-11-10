@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Book from "./Book";
+import Price from "../components/ui/Price";
 
 
 function Books({ books }) {

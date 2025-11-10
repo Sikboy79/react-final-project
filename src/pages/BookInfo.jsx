@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import Ratings from "../components/ui/Ratings";
 import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 
-function BookInfo({ books }) {
+function BookInfo({ books , addItemToCart }) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [image, setImage] = useState([]);
@@ -31,75 +30,67 @@ function BookInfo({ books }) {
       // When the component unmounts
       img.current = false;
     };
-  }, [books]);
+  }, [books, ]);
 
   if (!book) {
-    return <p>Book not found or loading...</p>;
+    return <p> loading... </p>;
   }
 
   function addItemToCart(b) {
     console.log("adding to cart:");
-    const dupeItem = cart.find((book) => b.title && id.title );
+    const dupeItem = cart.find((book) => book.id && b.id);
     setCart((oldCart) =>
       dupeItem
-        ? [
-            ...oldCart.map((cart) => {
-              return book.title === dupeItem.book.title
-                ? {
-                    ...id,
-                    quantity: book.title.quantity + 1,
-                  }
-                : id;
-            }),
-          ]
-        : [...oldCart, { ...book, quantity: 1 }]
-    );
-  }
-  
-  console.log(cart)
-  console.log(book)
-
-  function updateCart(id, newQuantity) {
-    setCart((oldCart) =>
-      oldCart.map((oldId) => {
-        if (oldId.title === id.tile) {
-          return {
-            ...oldId,
-            quantity: newQuantity,
-          };
-        } else {
-          return oldId;
-        }
-      })
+        ? oldCart.map((cartItem) => {
+          return cartItem.id === dupeItem.id
+            ? { ...cartItem, quantity: cartItem.quantity + 1 }
+            : cartItem;
+        })
+      : 
+        [...oldCart, { ...b, quantity: 1 }]
     );
   }
 
-  function removeItem(id) {
-    setCart((oldCart) =>
-      oldCart.filter((cartId) => cartId.title !== id.title)
-    );
-  }
+  console.log(cart);
 
-  function numberOfItems() {
-    let counter = 0;
-    cart.forEach((id) => {
-      counter += +id.quantity;
-    });
-    return counter;
-  }
+  // function updateCart(id, newQuantity, price) {
+  //   setCart((oldCart) =>
+  //     oldCart.map((oldId) => {
+  //       if (oldId.book === id.book) {
+  //         return {
+  //           ...oldId.book.price,
+  //           quantity: newQuantity,
+  //         };
+  //       } else {
+  //         return oldId;
+  //       }
+  //     }, [cart])
+  //   );
+  // }
 
-  function calcPrices() {
-    let total = 0;
-    cart.forEach((id) => {
-      total += (id.salePrice || id.originalPrice) * id.quantity;
-    });
-    return {
-      subtotal: total * 0.9,
-      tax: total * 0.1,
-      total,
-    };
-  }
+  // function removeItem(id) {
+  //   setCart((oldCart) => oldCart.filter((cartId) => cartId.title !== id.title));
+  // }
 
+  // function numberOfItems() {
+  //   let counter = 0;
+  //   cart.forEach((id) => {
+  //     counter += +id.quantity;
+  //   });
+  //   return counter;
+  // }
+
+  // function calcPrices() {
+  //   let total = 0;
+  //   cart.forEach((id) => {
+  //     total += (id.salePrice || id.originalPrice) * id.quantity;
+  //   });
+  //   return {
+  //     subtotal: total * 0.9,
+  //     tax: total * 0.1,
+  //     total,
+  //   };
+  // }
 
   return (
     <div id="books__body">
@@ -129,14 +120,14 @@ function BookInfo({ books }) {
                       <h2>{book.title}</h2>
                       <p className="book_author">
                         {" "}
-                        <span className="black">Author:  </span>
+                        <span className="black">Author: </span>
                         {Array.isArray(book.author_name)
                           ? book.author_name[0]
                           : book.author_name}
                       </p>
                       <p className="published">
                         {" "}
-                        <span className="black">First published:  </span>
+                        <span className="black">First published: </span>
                         {Array.isArray(book.first_publish_year)
                           ? book.first_publish_year[0]
                           : book.first_publish_year}
@@ -144,17 +135,25 @@ function BookInfo({ books }) {
                       <div className="book_description-text">
                         <p>
                           {" "}
-                          <span className="black">Book Description:  </span>
+                          <span className="black">Book Description: </span>
                           Lorem ipsum dolor sit amet consectetur adipisicing
                           elit. Fugit in dolor incidunt labore, voluptate
                           aliquid illum facere, pariatur repellendus ab sit
                           fugiat eligendi hic ad qui aperiam cumque? Animi,
                           odit.
                         </p>
-                        <button className="btn" onClick={() => addItemToCart(id)}>
-                      Add to Cart
-                    </button>
-                    {/* <Cart /> */}
+                        <Price />
+                        <Link to="/cart" >
+                          <button
+                            className="btn"
+                            onClick={() => addItemToCart(cart)}
+                          >
+                            Add to Cart
+                          </button>
+                        </Link>
+                        <div className="cart__BookInfo--link">
+                        <Cart cart={cart} title={book.title} price={book.price}/>
+                        </div>
                       </div>
                     </div>
                   </div>
