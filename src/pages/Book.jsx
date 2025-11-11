@@ -9,9 +9,10 @@ function Book({ book }) {
 
    // When routes switch dont set image to unmounted component
     const mountedRef = useRef(true);
-  if (!book || book.length === 0) {
+  if (!book.id || book.id.length === 0) {
     <p>Loading book...</p>;
   }
+
     useEffect(() => {
       const img = new Image();
       img.src = `https://covers.openlibrary.org/b/olid/${id}-L.jpg`;
@@ -27,7 +28,6 @@ function Book({ book }) {
         mountedRef.current = true;
       };
     }, [book]);
-
 
   return (
     <div className="book">

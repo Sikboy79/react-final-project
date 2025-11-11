@@ -1,8 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import "./App.css";
-import { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useParams,
+} from "react-router-dom";
 import Books from "./pages/Books";
 import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
@@ -16,23 +20,30 @@ function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const search = document.getElementById("searchInput");
+  const searchButton = document.getElementById("searchButton");
+  const resultsDiv = document.getElementById("results");
 
-  useEffect(() => {
+  useEffect((search) => {
     async function fetchBooks() {
-      try {
-        setLoading(true); // set loading true before loading
-        const { data } = await axios.get(
-          "https://openlibrary.org/search.json?q=woman" // make this dynamic
-        );
-        setBooks(data.docs || []);
-      } catch (err) {
-        setError("failed to load books"); //clear previous error
-      } finally {
-        setLoading(false);
+      if (`${search}`) {
+        try {
+          setLoading(true); // set loading true before loading
+          const { data } = await axios.get(
+            `https://openlibrary.org/search.json?q=${search}`
+          );
+          setBooks(data.docs || []);
+        } catch (err) {
+          setError("failed to load books"); //clear previous error
+        } finally {
+          setLoading(false);
+        }
       }
     }
     fetchBooks();
-  }, []);
+  }, [search]);
+
+  console.log(search)
 
   function updateCart(id, newQuantity) {
     setCart((oldCart) =>

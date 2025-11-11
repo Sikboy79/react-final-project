@@ -5,17 +5,17 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 
-function BookInfo({ books , addItemToCart }) {
+function BookInfo({ books , addItemToCart, homeBooks}) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [image, setImage] = useState([]);
-  const book = books.find(
-    (b) =>
-      b.cover_edition_key === id ||
-      b.cover_i?.toString() === id ||
-      encodeURIComponent(b.title) === id
-  );
-
+  const book = books.find (
+    (book) =>
+      book.cover_edition_key === id ||
+      book.cover_i?.toString() === id ||
+      encodeURIComponent(book.title) === id, 
+  ); 
+      
   useEffect(() => {
     const img = new Image();
     img.src = id;
@@ -30,15 +30,17 @@ function BookInfo({ books , addItemToCart }) {
       // When the component unmounts
       img.current = false;
     };
-  }, [books, ]);
+  }, [ ]);
+
+  console.log(id, book)
 
   if (!book) {
-    return <p> loading... </p>;
+    return <p> loading...</p>;
   }
 
-  function addItemToCart(b) {
+  function addItemToCart(book) {
     console.log("adding to cart:");
-    const dupeItem = cart.find((book) => book.id && b.id);
+    const dupeItem = cart.find((book) => book.id && book);
     setCart((oldCart) =>
       dupeItem
         ? oldCart.map((cartItem) => {
@@ -47,7 +49,7 @@ function BookInfo({ books , addItemToCart }) {
             : cartItem;
         })
       : 
-        [...oldCart, { ...b, quantity: 1 }]
+        [...oldCart, { ...book, quantity: 1 }]
     );
   }
 
@@ -146,7 +148,7 @@ function BookInfo({ books , addItemToCart }) {
                         <Link to="/cart" >
                           <button
                             className="btn"
-                            onClick={() => addItemToCart(cart)}
+                            onClick={() => addItemToCart(book)}
                           >
                             Add to Cart
                           </button>

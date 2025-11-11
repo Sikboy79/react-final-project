@@ -380,6 +380,7 @@ FEATURES
   transition: all 300ms ease;
   margin: 0 auto;
   cursor: grab;
+  user-select: none;
 }
 
 .books-list {
@@ -397,6 +398,7 @@ FEATURES
 .authors_name {
   overflow-wrap: break-word;
   max-width: 90%;
+  user-select: none;
 }
 
 .book:hover {
@@ -407,6 +409,10 @@ FEATURES
   max-height: 320px;
   max-width: 250px;
   transition: all 300ms ease;
+}
+
+.book__price {
+  user-select: none;
 }
 
 .book__img--skeleton {

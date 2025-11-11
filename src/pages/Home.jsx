@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Price from "../components/ui/Price";
 import Book from "./Book";
 
-function Home({ cover_i, title, authors_name, cover_edition_key }) {
+function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,7 +14,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-
+  
   useEffect(() => {
     async function fetchData() {
       try {
@@ -35,7 +35,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
 
   useEffect(() => {
     if (!data.docs || (data.length && 0)) {
-      const slicedData = data.slice(0, 100);
+      const slicedData = data.slice(0, 15);
       const homeBooks = slicedData.map((item) => ({
         title: item.title,
         author_name: item.author_name,
@@ -47,6 +47,15 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
     }
   }, [data, setHomeBooks]);
 
+  const book = homeBooks.find (
+    (book) =>
+      book.cover_edition_key === id ||
+      book.cover_i?.toString() === id ||
+      encodeURIComponent(book.title) === id, 
+  );
+
+// console.log(book)
+
   // When routes switch dont set image to unmounted component
   const mountedRef = useRef(true);
   if (!homeBooks || homeBooks.length === 0) {
@@ -55,7 +64,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
 
   useEffect(() => {
     const img = new Image();
-    img.src = `https://covers.openlibrary.org/b/olid/${cover_edition_key}-L.jpg`;
+    img.src = `https://covers.openlibrary.org/b/olid/${cover_i}-L.jpg`;
     img.onload = () => {
       setTimeout(() => {
         if (mountedRef.current) {
@@ -115,7 +124,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
             onMouseMove={handleMouseMove}
           >
             {homeBooks.map((book) => (
-              <Book key={homeBooks.cover_i || homeBooks.title} book={book} />
+              <Book key={book.key || book.cover_edition_key || book.cover_i || book.title} book={book} />
             ))}
           </div>
         </>
