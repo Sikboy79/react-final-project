@@ -24,7 +24,7 @@ function Book({ book }) {
       };
       return () => {
         // When the component unmounts
-        mountedRef.current = false;
+        mountedRef.current = true;
       };
     }, [book]);
 
@@ -42,7 +42,7 @@ function Book({ book }) {
         <div className="book_card">
           <Link to={`/book/${id}`}>
             <img
-            src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`: "fallback.jpg"} 
+            src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`: "../assets/fallback-book.jpg"} 
             alt={book.title}
             />
             <h3>{book.title}</h3>

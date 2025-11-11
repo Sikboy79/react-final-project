@@ -3,8 +3,6 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import Price from "../components/ui/Price";
 import Book from "./Book";
-import NewReleases from "../components/New Releases";
-
 
 function Home({ cover_i, title, authors_name, cover_edition_key }) {
   const [data, setData] = useState([]);
@@ -12,6 +10,10 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
   const [error, setError] = useState(null);
   const [homeBooks, setHomeBooks] = useState([]);
   const [img, setImg] = useState([]);
+  const scrollRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
@@ -33,7 +35,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
 
   useEffect(() => {
     if (!data.docs || (data.length && 0)) {
-      const slicedData = data.slice(0, 12);
+      const slicedData = data.slice(0, 100);
       const homeBooks = slicedData.map((item) => ({
         title: item.title,
         author_name: item.author_name,
@@ -51,11 +53,9 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
     <p>Loading book...</p>;
   }
 
-  console.log(homeBooks);
-
   useEffect(() => {
     const img = new Image();
-    img.src = `https://covers.openlibrary.org/b/olid/${cover_i}-L.jpg`;
+    img.src = `https://covers.openlibrary.org/b/olid/${cover_edition_key}-L.jpg`;
     img.onload = () => {
       setTimeout(() => {
         if (mountedRef.current) {
@@ -69,6 +69,31 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
     };
   }, []);
 
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollRef.current.offsetLeft);
+    setScrollLeft(scrollRef.current.scrollLeft);
+    scrollRef.current.style.cursor = "grabbing";
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    scrollRef.current.style.cursor = "grab";
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    scrollRef.current.style.cursor = "grab";
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = x - startX; // The distance the mouse has moved
+    scrollRef.current.scrollLeft = scrollLeft - walk; // Adjust scroll position
+  };
+
   return (
     <div className="home-book">
       {!img ? (
@@ -81,7 +106,14 @@ function Home({ cover_i, title, authors_name, cover_edition_key }) {
       ) : (
         <>
           <h2>Recomended Books:</h2>
-          <div className="book_card-home">
+          <div
+            className="book_card-home"
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseLeave={handleMouseLeave}
+            onMouseUp={handleMouseUp}
+            onMouseMove={handleMouseMove}
+          >
             {homeBooks.map((book) => (
               <Book key={homeBooks.cover_i || homeBooks.title} book={book} />
             ))}
