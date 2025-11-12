@@ -12,7 +12,7 @@ import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
-import axios from "axios";
+// import axios from "axios";
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -24,26 +24,24 @@ function App() {
   const searchButton = document.getElementById("searchButton");
   const resultsDiv = document.getElementById("results");
 
-  useEffect((search) => {
-    async function fetchBooks() {
-      if (`${search}`) {
-        try {
-          setLoading(true); // set loading true before loading
-          const { data } = await axios.get(
-            `https://openlibrary.org/search.json?q=${search}`
-          );
-          setBooks(data.docs || []);
-        } catch (err) {
-          setError("failed to load books"); //clear previous error
-        } finally {
-          setLoading(false);
-        }
-      }
-    }
-    fetchBooks();
-  }, [search]);
-
-  console.log(search)
+  // useEffect((search) => {
+  //   async function fetchBooks() {
+  //     if (`${search}`) {
+  //       try {
+  //         setLoading(true); // set loading true before loading
+  //         const { data } = await axios.get(
+  //           `https://openlibrary.org/search.json?q=${search}`
+  //         );
+  //         setBooks(data.docs || []);
+  //       } catch (err) {
+  //         setError("failed to load books"); //clear previous error
+  //       } finally {
+  //         setLoading(false);
+  //       }
+  //     }
+  //   }
+  //   fetchBooks();
+  // }, [search]);
 
   function updateCart(id, newQuantity) {
     setCart((oldCart) =>

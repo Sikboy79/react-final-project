@@ -4,17 +4,20 @@ import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
+import Books from "./Books";
 
-function BookInfo({ books , addItemToCart, homeBooks}) {
+function BookInfo({ addItemToCart }) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [image, setImage] = useState([]);
+  const [books, setBooks] = useState([]);
   const book = books.find (
     (book) =>
       book.cover_edition_key === id ||
       book.cover_i?.toString() === id ||
       encodeURIComponent(book.title) === id, 
   ); 
+  console.log(books)
       
   useEffect(() => {
     const img = new Image();

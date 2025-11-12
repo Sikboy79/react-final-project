@@ -28,6 +28,7 @@ function Book({ book }) {
         mountedRef.current = true;
       };
     }, [book]);
+    
 
   return (
     <div className="book">
