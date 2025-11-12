@@ -12,7 +12,7 @@ import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
-// import axios from "axios";
+
 
 function App() {
   const [cart, setCart] = useState([]);
@@ -20,28 +20,6 @@ function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // const search = document.getElementById("searchInput");
-  // const searchButton = document.getElementById("searchButton");
-  // const resultsDiv = document.getElementById("results");
-
-  // useEffect((search) => {
-  //   async function fetchBooks() {
-  //     if (`${search}`) {
-  //       try {
-  //         setLoading(true); // set loading true before loading
-  //         const { data } = await axios.get(
-  //           `https://openlibrary.org/search.json?q=${search}`
-  //         );
-  //         setBooks(data.docs || []);
-  //       } catch (err) {
-  //         setError("failed to load books"); //clear previous error
-  //       } finally {
-  //         setLoading(false);
-  //       }
-  //     }
-  //   }
-  //   fetchBooks();
-  // }, [search]);
 
   function updateCart(id, newQuantity) {
     setCart((oldCart) =>
