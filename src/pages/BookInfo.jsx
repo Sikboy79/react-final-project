@@ -5,19 +5,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 
-function BookInfo({ books, addItemToCart }) {
+function BookInfo({  addItemToCart }) {
   const { id } = useParams();
+  const { books } = useParams();
   const [cart, setCart] = useState([]);
   const [image, setImage] = useState([]);
-
-  const book = books?.find(
-    (book) =>
-      book.cover_edition_key === id ||
-      book.cover_i?.toString() === id ||
-      encodeURIComponent(book.title) === id
-  );
-  console.log(books);
-  console.log(book)
 
   useEffect(() => {
     const img = new Image();
@@ -35,7 +27,7 @@ function BookInfo({ books, addItemToCart }) {
     };
   }, []);
 
-  if (book) {
+  if (!id) {
     return <p> loading...</p>;
   }
 
@@ -112,27 +104,27 @@ function BookInfo({ books, addItemToCart }) {
                     <img
                       className="img"
                       src={
-                        book.cover_i
-                          ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`
+                        id.cover_i
+                          ? `https://covers.openlibrary.org/b/id/${id.cover_i}-L.jpg`
                           : "fallback.jpg"
                       }
-                      alt={book.title}
+                      alt={id.title}
                     />
                     <div className="book_description">
-                      <h2>{book.title}</h2>
+                      <h2>{id.title}</h2>
                       <p className="book_author">
                         {" "}
                         <span className="black">Author: </span>
-                        {Array.isArray(book.author_name)
-                          ? book.author_name[0]
-                          : book.author_name}
+                        {Array.isArray(id.author_name)
+                          ? id.author_name[0]
+                          : id.author_name}
                       </p>
                       <p className="published">
                         {" "}
                         <span className="black">First published: </span>
-                        {Array.isArray(book.first_publish_year)
-                          ? book.first_publish_year[0]
-                          : book.first_publish_year}
+                        {Array.isArray(id.first_publish_year)
+                          ? id.first_publish_year[0]
+                          : id.first_publish_year}
                       </p>
                       <div className="book_description-text">
                         <p>
@@ -148,7 +140,7 @@ function BookInfo({ books, addItemToCart }) {
                         <Link to="/cart">
                           <button
                             className="btn"
-                            onClick={() => addItemToCart(book)}
+                            onClick={() => addItemToCart(id)}
                           >
                             Add to Cart
                           </button>
@@ -156,8 +148,8 @@ function BookInfo({ books, addItemToCart }) {
                         <div className="cart__BookInfo--link">
                           <Cart
                             cart={cart}
-                            title={book.title}
-                            price={book.price}
+                            title={id.title}
+                            price={id.price}
                           />
                         </div>
                       </div>
