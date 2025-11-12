@@ -9,7 +9,7 @@ function Books({ }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchValue, setSearchValue] = useState("");
-  const [results, setResults] = useState([]);
+  const id = books.cover_edition_key || books.cover_i || encodeURIComponent(books.title);
 
   const handleInputChange = (event) => {
     const query = event.target.value;
@@ -19,12 +19,6 @@ function Books({ }) {
 
   const handleSearchClick = () => {
     filterResults(searchValue);
-  };
-
-  const handleKeyPress = (event) => {
-    if (event.key === "Enter") {
-      handleSearchClick(searchValue);
-    }
   };
 
   const filterResults = () => {
@@ -60,7 +54,9 @@ function Books({ }) {
     }
   }, [data, setBooks]);
 
-  console.log(books);
+
+console.log(books);
+
 
   if (!Array.isArray({ books })) {
     if (!Array.isArray(books) || books.length === 0) {
@@ -83,7 +79,6 @@ function Books({ }) {
                     placeholder="  Your next adventure! "
                     value={`${searchValue}`}
                     onChange={handleInputChange}
-                    // setSearch={handleKeyPress}
                   />
                   <button id="search_btn" onClick={handleSearchClick}>
                     {" "}

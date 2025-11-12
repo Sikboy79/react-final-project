@@ -20,9 +20,9 @@ function App() {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const search = document.getElementById("searchInput");
-  const searchButton = document.getElementById("searchButton");
-  const resultsDiv = document.getElementById("results");
+  // const search = document.getElementById("searchInput");
+  // const searchButton = document.getElementById("searchButton");
+  // const resultsDiv = document.getElementById("results");
 
   // useEffect((search) => {
   //   async function fetchBooks() {

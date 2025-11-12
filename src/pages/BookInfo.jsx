@@ -1,24 +1,24 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
-// import Books from "./Books";
 
-function BookInfo({ addItemToCart }) {
+function BookInfo({ books, addItemToCart }) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [image, setImage] = useState([]);
-  const [books, setBooks] = useState([]);
-  const book = books.find (
+
+  const book = books?.find(
     (book) =>
       book.cover_edition_key === id ||
       book.cover_i?.toString() === id ||
-      encodeURIComponent(book.title) === id, 
-  ); 
-  console.log(books)
-      
+      encodeURIComponent(book.title) === id
+  );
+  console.log(books);
+  console.log(book)
+
   useEffect(() => {
     const img = new Image();
     img.src = id;
@@ -33,11 +33,9 @@ function BookInfo({ addItemToCart }) {
       // When the component unmounts
       img.current = false;
     };
-  }, [ ]);
+  }, []);
 
-  console.log(id, book)
-
-  if (!book) {
+  if (book) {
     return <p> loading...</p>;
   }
 
@@ -47,16 +45,15 @@ function BookInfo({ addItemToCart }) {
     setCart((oldCart) =>
       dupeItem
         ? oldCart.map((cartItem) => {
-          return cartItem.id === dupeItem.id
-            ? { ...cartItem, quantity: cartItem.quantity + 1 }
-            : cartItem;
-        })
-      : 
-        [...oldCart, { ...book, quantity: 1 }]
+            return cartItem.id === dupeItem.id
+              ? { ...cartItem, quantity: cartItem.quantity + 1 }
+              : cartItem;
+          })
+        : [...oldCart, { ...book, quantity: 1 }]
     );
   }
 
-  console.log(cart);
+  // console.log(cart);
 
   // function updateCart(id, newQuantity, price) {
   //   setCart((oldCart) =>
@@ -148,7 +145,7 @@ function BookInfo({ addItemToCart }) {
                           odit.
                         </p>
                         <Price />
-                        <Link to="/cart" >
+                        <Link to="/cart">
                           <button
                             className="btn"
                             onClick={() => addItemToCart(book)}
@@ -157,7 +154,11 @@ function BookInfo({ addItemToCart }) {
                           </button>
                         </Link>
                         <div className="cart__BookInfo--link">
-                        <Cart cart={cart} title={book.title} price={book.price}/>
+                          <Cart
+                            cart={cart}
+                            title={book.title}
+                            price={book.price}
+                          />
                         </div>
                       </div>
                     </div>
