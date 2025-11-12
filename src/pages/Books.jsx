@@ -8,13 +8,13 @@ function Books({ }) {
   const [books, setBooks] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [searchValue, setSearchValue] = useState('');
-  // const [results, setResults] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [results, setResults] = useState([]);
 
   const handleInputChange = (event) => {
     const query = event.target.value;
     setSearchValue(query);
-    filterResults(query)
+    filterResults(query);
   };
 
   const handleSearchClick = () => {
@@ -27,32 +27,45 @@ function Books({ }) {
     }
   };
 
-  const filterResults = (query) => {
+  const filterResults = () => {
     async function fetchBooks() {
-        if (`${searchValue}`) {
-          try {
-            setLoading(true); // set loading true before loading
-            const { data } = await axios.get(
-              `https://openlibrary.org/search.json?q=${searchValue}`
-            );
-            setBooks(data.docs || []);
-          } catch (err) {
-            setError("failed to load books"); //clear previous error
-          } finally {
-            setLoading(false);
-          }
+      if (`${searchValue}`) {
+        try {
+          setLoading(true); // set loading true before loading
+          const { data } = await axios.get(
+            `https://openlibrary.org/search.json?q=${searchValue}`
+          );
+          setData(data.docs || []);
+        } catch (err) {
+          setError("failed to load books"); //clear previous error
+        } finally {
+          setLoading(false);
         }
       }
-    fetchBooks(query);
+    }
+    fetchBooks(books);
   };
 
-    console.log(books)
+  useEffect(() => {
+    if (!data.docs || (data.length && 0)) {
+      const slicedBooks = data.slice(0, 16);
+      const books = slicedBooks.map((item) => ({
+        title: item.title,
+        author_name: item.author_name,
+        cover_i: item.cover_i,
+        key: item.key,
+        cover_edition_key: item.cover_edition_key,
+      }));
+      setBooks(books);
+    }
+  }, [data, setBooks]);
 
+  console.log(books);
 
-  // if (!Array.isArray({ books })) {
-  //   if (!Array.isArray(books) || books.length === 0) {
-  //     return <p>Loading books..</p>;
-  //   }
+  if (!Array.isArray({ books })) {
+    if (!Array.isArray(books) || books.length === 0) {
+      // return <p>Loading books..</p>;
+    }
 
     return (
       <div id="books__body">
@@ -70,10 +83,11 @@ function Books({ }) {
                     placeholder="  Your next adventure! "
                     value={`${searchValue}`}
                     onChange={handleInputChange}
-                    setSearch={handleKeyPress}
+                    // setSearch={handleKeyPress}
                   />
                   <button id="search_btn" onClick={handleSearchClick}>
-                    {" "} Start search {" "}
+                    {" "}
+                    Start search{" "}
                   </button>
                   <script src="app.js">result</script>
                 </div>
@@ -97,6 +111,6 @@ function Books({ }) {
       </div>
     );
   }
-// }
+}
 
 export default Books;

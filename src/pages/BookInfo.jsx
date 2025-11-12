@@ -4,7 +4,7 @@ import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
-import Books from "./Books";
+// import Books from "./Books";
 
 function BookInfo({ addItemToCart }) {
   const { id } = useParams();

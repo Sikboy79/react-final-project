@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Price from "../components/ui/Price";
 import BookInfo from "./BookInfo";
 
-function Book({ book }) {
+function Book({ book, books }) {
   const id = book.cover_edition_key || book.cover_i || encodeURIComponent(book.title);
   const [img, setImg] = useState([]);
 
@@ -41,7 +41,7 @@ function Book({ book }) {
         </>
       ) : (
         <div className="book_card">
-          <Link to={`/book/${id}`}>
+          <Link to= {`/book/${id}`} state={{ booksArray: books }}>
             <img
             src={book.cover_i ? `https://covers.openlibrary.org/b/id/${book.cover_i}-L.jpg`: "../assets/fallback-book.jpg"} 
             alt={book.title}
