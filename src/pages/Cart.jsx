@@ -13,7 +13,6 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
   }
 
   console.log(cart);
-  console.log(book[0,0].title)
 
   return (
     <div id="books__body">
@@ -49,9 +48,9 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
                           <span className="cart__book--title">
                             {cart[0].title}
                           </span>
-                          {/* <span className="cart__book--price">
+                          <span className="cart__book--price">
                             ${itemPrice.toFixed(2)}
-                          </span> */}
+                          </span>
                           <button
                             className="cart__book--remove"
                             onClick={() => removeItem(id)}

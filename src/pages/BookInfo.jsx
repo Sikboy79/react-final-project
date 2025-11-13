@@ -197,7 +197,7 @@ function BookInfo({ addItemToCart }) {
                           </button>
                         </Link>
                         <div className="cart__BookInfo--link">
-                          <Cart cart={cart} title={book[0].title} price={book[0].price} book={book}/>
+                          <Cart cart={cart} title={book.title} price={book.price} book={book}/>
                         </div>
                       </div>
                     </div>
