@@ -48,6 +48,10 @@ function BookInfo({ addItemToCart }) {
       }
     }, [data]);
 
+    if (!book || book.length === 0) {
+    <p>Loading book...</p>;
+  }
+
 
   //   console.log(data)
   // console.log(book[0].title)
@@ -68,7 +72,7 @@ function BookInfo({ addItemToCart }) {
     };
   }, []);
 
-  if (!book) {
+  if (!book[0]) {
     return <p> loading...</p>;
   }
 
