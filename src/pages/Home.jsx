@@ -4,7 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import Price from "../components/ui/Price";
 import Book from "./Book";
 
-function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
+function Home({ cover_i }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -46,15 +46,6 @@ function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
       setHomeBooks(homeBooks);
     }
   }, [data, setHomeBooks]);
-
-  // const book = homeBooks.find(
-  //   (book) =>
-  //     book.cover_edition_key === id ||
-  //     book.cover_i?.toString() === id ||
-  //     encodeURIComponent(book.title) === id
-  // );
-
-  // console.log(book)
 
   // When routes switch dont set image to unmounted component
   const mountedRef = useRef(true);

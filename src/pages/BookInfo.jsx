@@ -77,7 +77,7 @@ function BookInfo({ addItemToCart }) {
   }
 
   function addItemToCart(book) {
-    console.log("adding to cart:");
+    console.log(`adding to cart:${book[0].title}`);
     const dupeItem = cart.find((book) => book.id && book);
     setCart((oldCart) =>
       dupeItem
@@ -90,12 +90,12 @@ function BookInfo({ addItemToCart }) {
     );
   }
 
-  // console.log(cart);
+  console.log(book);
 
-  // function updateCart(id, newQuantity, price) {
+  // function updateCart(id, newQuantity, price, book) {
   //   setCart((oldCart) =>
   //     oldCart.map((oldId) => {
-  //       if (oldId.book === id.book) {
+  //       if (oldId.book === book) {
   //         return {
   //           ...oldId.book.price,
   //           quantity: newQuantity,
@@ -191,13 +191,13 @@ function BookInfo({ addItemToCart }) {
                         <Link to="/cart">
                           <button
                             className="btn"
-                            onClick={() => addItemToCart(id)}
+                            onClick={() => addItemToCart(book)}
                           >
                             Add to Cart
                           </button>
                         </Link>
                         <div className="cart__BookInfo--link">
-                          <Cart cart={cart} title={book[0].title} price={book[0].price} />
+                          <Cart cart={cart} title={book[0].title} price={book[0].price} book={book}/>
                         </div>
                       </div>
                     </div>
@@ -205,14 +205,6 @@ function BookInfo({ addItemToCart }) {
                 </figure>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="books__container">
-          <div className="row">
-            {/* <div className="book__selected--top">
-              <h2 className="book__selected--title--top">Recommended Books</h2>
-            </div> */}
-            {/* <BestBooks id={title} /> */}
           </div>
         </div>
       </main>
