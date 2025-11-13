@@ -53,9 +53,6 @@ function BookInfo({ addItemToCart }) {
   }
 
 
-  //   console.log(data)
-  // console.log(book[0].title)
-
   useEffect(() => {
     const img = new Image();
     img.src = book;
@@ -91,45 +88,6 @@ function BookInfo({ addItemToCart }) {
   }
 
   console.log(book);
-
-  // function updateCart(id, newQuantity, price, book) {
-  //   setCart((oldCart) =>
-  //     oldCart.map((oldId) => {
-  //       if (oldId.book === book) {
-  //         return {
-  //           ...oldId.book.price,
-  //           quantity: newQuantity,
-  //         };
-  //       } else {
-  //         return oldId;
-  //       }
-  //     }, [cart])
-  //   );
-  // }
-
-  // function removeItem(id) {
-  //   setCart((oldCart) => oldCart.filter((cartId) => cartId.title !== id.title));
-  // }
-
-  // function numberOfItems() {
-  //   let counter = 0;
-  //   cart.forEach((id) => {
-  //     counter += +id.quantity;
-  //   });
-  //   return counter;
-  // }
-
-  // function calcPrices() {
-  //   let total = 0;
-  //   cart.forEach((id) => {
-  //     total += (id.salePrice || id.originalPrice) * id.quantity;
-  //   });
-  //   return {
-  //     subtotal: total * 0.9,
-  //     tax: total * 0.1,
-  //     total,
-  //   };
-  // }
 
   return (
     <div id="books__body">

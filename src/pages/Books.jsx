@@ -85,7 +85,6 @@ console.log(books);
                     {" "}
                     Start search{" "}
                   </button>
-                  {/* <script src="app.js">result</script> */}
                 </div>
                 <div className="books-list">
                   {books.map((book) => (

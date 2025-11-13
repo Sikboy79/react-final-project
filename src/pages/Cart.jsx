@@ -4,13 +4,54 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EmptyCart from "../assets/empty_cart.svg";
 
-const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
+
+const Cart = ({ updateCart, removeItem, totals, price, item }) => {
   const itemPrice = price;
   const id = cart.cover_edition_key || cart.cover_i || encodeURIComponent(cart.title);
+  const [cart, setCart] = useState([]);
   
   if (!cart) {
     return <p>cart not found</p>;
   }
+
+  function updateCart(id, newQuantity, price, book) {
+    setCart((oldCart) =>
+      oldCart.map((oldId) => {
+        if (oldId.book === book) {
+          return {
+            ...oldId.book.price,
+            quantity: newQuantity,
+          };
+        } else {
+          return oldId;
+        }
+      }, [cart])
+    );
+  }
+
+  // function removeItem(id) {
+  //   setCart((oldCart) => oldCart.filter((cartId) => cartId.title !== id.title));
+  // }
+
+  // function numberOfItems() {
+  //   let counter = 0;
+  //   cart.forEach((id) => {
+  //     counter += +id.quantity;
+  //   });
+  //   return counter;
+  // }
+
+  // function calcPrices() {
+  //   let total = 0;
+  //   cart.forEach((id) => {
+  //     total += (id.salePrice || id.originalPrice) * id.quantity;
+  //   });
+  //   return {
+  //     subtotal: total * 0.9,
+  //     tax: total * 0.1,
+  //     total,
+  //   };
+  // }
 
   console.log(cart);
 
@@ -29,7 +70,7 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
                 <span className="cart__total">Price</span>
               </div>
               <div className="cart__body">
-                {cart.map((price) => {
+                {cart.map((item) => {
                   return (
                     <div className="cart__item" key={id}>
                       <div className="cart__book">
@@ -38,15 +79,15 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
                         <img
                           className="cart__book--img"
                           src={
-                            cart[0, 0].cover_i
-                              ? `https://covers.openlibrary.org/b/id/${cart[0, 0].cover_i}-L.jpg`
+                            item.cover_i
+                              ? `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`
                               : "fallback.jpg"
                           }
                           alt=""
                         />
                         <div className="cart__book--info">
                           <span className="cart__book--title">
-                            {cart[0].title}
+                            {item.title}
                           </span>
                           <span className="cart__book--price">
                             ${itemPrice.toFixed(2)}
@@ -65,20 +106,20 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
                           className="cart__input"
                           min={0}
                           max={99}
-                          value={cart.quantity}
+                          value={item.quantity}
                           onChange={(event) =>
-                            updateCart(cart, event.target.value)
+                            updateCart(item, event.target.value)
                           }
                         />
                       </div>
                       <div className="cart__total">
-                        ${(price * cart.quantity).toFixed(2)}
+                        ${(price * item.quantity).toFixed(2)}
                       </div>
                     </div>
                   );
                 })}
-                {(!cart || !cart.length) && <img src={EmptyCart} />}
-                {(!cart || !cart.length) && (
+                {(!cart || !item.length) && <img src={EmptyCart} />}
+                {(!cart || !item.length) && (
                   <div className="cart__empty">
                     <h2>You don't have any books in your cart!</h2>
                     <Link to="/books">
@@ -114,7 +155,7 @@ const Cart = ({ cart, updateCart, removeItem, totals, price, book }) => {
         </div>
       </main>
     </div>
-  ),[];
+  );
 };
 
 export default Cart;
