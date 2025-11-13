@@ -1,23 +1,47 @@
-
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EmptyCart from "../assets/empty_cart.svg";
 import Price from "../components/ui/Price";
 
-
-const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) => {
+const Cart = ({
+  updateCart,
+  removeItem,
+  totals,
+  price,
+  book,
+  cart,
+  quantity,
+}) => {
   const itemPrice = price;
-  const cartArray = JSON.parse(localStorage.getItem('cart') || '[]')
-  const filteredData = cartArray.filter(item => item.length > 0);
-  const id = filteredData[0].cover_edition_key || filteredData[0].cover_i || filteredData[0].title;
+  const cartArray = JSON.parse(localStorage.getItem("cart") || "[]");
+  const filteredData = cartArray.filter((item) => item.length > 0);
+  // const id = filteredData[3].cover_edition_key || filteredData[3].cover_i || filteredData[3].title;
   const [oldCart, setCart] = useState([]);
 
-  if (id) {
-    return <p>cart not found</p>;
+  // if (id) {
+  //   return <p>cart not found</p>;
+  // }
+
+  function processNestedArrays(filteredData) {
+    for (let i = 0; i < filteredData.length; i++) {
+      const innerArray = filteredData[i];
+      console.log("Processing inner array:", innerArray);
+
+      for (let j = 0; j < innerArray.length; j++) {
+        const element = innerArray[j];
+        console.log("  Element:", element);
+      }
+    }
   }
 
-  function updateCart( newQuantity, price, book ) {
+  const data = [
+    []
+  ];
+  processNestedArrays(filteredData);
+
+  console.log(data)
+
+  function updateCart(newQuantity, price, book) {
     setCart((cart) =>
       oldCart.map((oldId) => {
         if (oldId.book === book) {
@@ -33,7 +57,9 @@ const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) =
   }
 
   function removeItem(id) {
-    setCart((filteredData) => filteredData.filter((cartId) => cartId.title !== id.title));
+    setCart((filteredData) =>
+      filteredData.filter((cartId) => cartId.title !== id.title)
+    );
   }
 
   function numberOfItems() {
@@ -56,8 +82,8 @@ const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) =
     };
   }
 
-  console.log(filteredData);
-  console.log(id)
+  
+  // console.log(id)
 
   return (
     <div id="books__body">
@@ -76,7 +102,7 @@ const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) =
               <div className="cart__body">
                 {filteredData.map((id) => {
                   return (
-                    <div className="cart__item" >
+                    <div className="cart__item">
                       <div className="cart__book">
                         {" "}
                         books
@@ -91,10 +117,10 @@ const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) =
                         />
                         <div className="cart__book--info">
                           <span className="cart__book--title">
-                            {filteredData[1,0].title}
+                            {filteredData[(1, 0)].title}
                           </span>
                           <span className="cart__book--price">
-                            <Price/>
+                            <Price />
                             {/* ${itemPrice.toFixed(2)} */}
                           </span>
                           <button
@@ -113,7 +139,7 @@ const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) =
                           max={99}
                           value={cart.quantity}
                           onChange={(event) =>
-                            updateCart(cartArray[0,0], event.target.value)
+                            updateCart(cartArray[(0, 0)], event.target.value)
                           }
                         />
                       </div>
