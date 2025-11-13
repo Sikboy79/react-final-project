@@ -14,7 +14,7 @@ function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  
+
   useEffect(() => {
     async function fetchData() {
       try {
@@ -47,14 +47,14 @@ function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
     }
   }, [data, setHomeBooks]);
 
-  const book = homeBooks.find (
-    (book) =>
-      book.cover_edition_key === id ||
-      book.cover_i?.toString() === id ||
-      encodeURIComponent(book.title) === id, 
-  );
+  // const book = homeBooks.find(
+  //   (book) =>
+  //     book.cover_edition_key === id ||
+  //     book.cover_i?.toString() === id ||
+  //     encodeURIComponent(book.title) === id
+  // );
 
-// console.log(book)
+  // console.log(book)
 
   // When routes switch dont set image to unmounted component
   const mountedRef = useRef(true);
@@ -105,30 +105,26 @@ function Home({ cover_i, title, authors_name, cover_edition_key, id }) {
 
   return (
     <div className="home-book">
-      {!img ? (
-        <>
-          <div className="book__img--skeleton"></div>
-          <div className="skeleton book__title--skeleton"></div>
-          <div className="skeleton book__rating--skeleton"></div>
-          <div className="skeleton book__price--skeleton"></div>
-        </>
-      ) : (
-        <>
-          <h2>Recomended Books:</h2>
-          <div
-            className="book_card-home"
-            ref={scrollRef}
-            onMouseDown={handleMouseDown}
-            onMouseLeave={handleMouseLeave}
-            onMouseUp={handleMouseUp}
-            onMouseMove={handleMouseMove}
-          >
-            {homeBooks.map((book) => (
-              <Book key={book.key || book.cover_edition_key || book.cover_i || book.title} book={book} />
-            ))}
-          </div>
-        </>
-      )}
+      <>
+        <h2>Recomended Books:</h2>
+        <div
+          className="book_card-home"
+          ref={scrollRef}
+          onMouseDown={handleMouseDown}
+          onMouseLeave={handleMouseLeave}
+          onMouseUp={handleMouseUp}
+          onMouseMove={handleMouseMove}
+        >
+          {homeBooks.map((book) => (
+            <Book
+              key={
+                book.key || book.cover_edition_key || book.cover_i || book.title
+              }
+              book={book}
+            />
+          ))}
+        </div>
+      </>
     </div>
   );
 }

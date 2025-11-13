@@ -4,16 +4,57 @@ import Price from "../components/ui/Price";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
+import axios from "axios";
 
-function BookInfo({  addItemToCart }) {
+function BookInfo({ addItemToCart }) {
   const { id } = useParams();
-  const { books } = useParams();
   const [cart, setCart] = useState([]);
-  const [image, setImage] = useState([]);
+  const [img, setImage] = useState([]);
+  const [book, setBook] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+ useEffect(() => {
+    async function fetchBook() {
+      try {
+        setLoading(true); // set loading true before loading
+        const { data } = await axios.get(
+          `https://openlibrary.org/search.json?q=${id}`
+        );
+        setData(data.docs);
+        setError(null);
+      } catch (err) {
+        setError("failed to load books"); //clear previous error
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchBook(data);
+  }, []);
+
+  useEffect(() => {
+      if (!data.docs || (data.length > 0)) {
+        const slicedData = data.slice(0, 1);
+        const book = slicedData.map((item) => ({
+          title: item.title,
+          author_name: item.author_name,
+          cover_i: item.cover_i,
+          key: item.key,
+          cover_edition_key: item.cover_edition_key,
+          first_publish_year: item.first_publish_year
+        }));
+        setBook(book);
+      }
+    }, [data]);
+
+
+  //   console.log(data)
+  // console.log(book[0].title)
 
   useEffect(() => {
     const img = new Image();
-    img.src = id;
+    img.src = book;
     img.onload = () => {
       setTimeout(() => {
         if (Image.current) {
@@ -27,7 +68,7 @@ function BookInfo({  addItemToCart }) {
     };
   }, []);
 
-  if (!id) {
+  if (!book) {
     return <p> loading...</p>;
   }
 
@@ -104,27 +145,33 @@ function BookInfo({  addItemToCart }) {
                     <img
                       className="img"
                       src={
-                        id.cover_i
-                          ? `https://covers.openlibrary.org/b/id/${id.cover_i}-L.jpg`
+                        book[0].cover_i
+                          ? `https://covers.openlibrary.org/b/id/${book[0].cover_i}-L.jpg`
                           : "fallback.jpg"
                       }
-                      alt={id.title}
+                      alt={book.title}
                     />
                     <div className="book_description">
-                      <h2>{id.title}</h2>
+                      <p className="book_title">
+                        {" "}
+                        <span className="black">Title: </span>
+                        {Array.isArray(book[0].title)
+                          ? book[0].title
+                          : book[0].title}
+                      </p>
                       <p className="book_author">
                         {" "}
                         <span className="black">Author: </span>
-                        {Array.isArray(id.author_name)
-                          ? id.author_name[0]
-                          : id.author_name}
+                        {Array.isArray(book[0].author_name)
+                          ? book[0].author_name
+                          : book[0].author_name}
                       </p>
                       <p className="published">
                         {" "}
                         <span className="black">First published: </span>
-                        {Array.isArray(id.first_publish_year)
-                          ? id.first_publish_year[0]
-                          : id.first_publish_year}
+                        {Array.isArray(book[0].first_publish_year)
+                          ? book[0].first_publish_year
+                          : book[0].first_publish_year}
                       </p>
                       <div className="book_description-text">
                         <p>
@@ -146,11 +193,7 @@ function BookInfo({  addItemToCart }) {
                           </button>
                         </Link>
                         <div className="cart__BookInfo--link">
-                          <Cart
-                            cart={cart}
-                            title={id.title}
-                            price={id.price}
-                          />
+                          <Cart cart={cart} title={book[0].title} price={book[0].price} />
                         </div>
                       </div>
                     </div>

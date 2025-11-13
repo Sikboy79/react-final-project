@@ -1,25 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Home from "./pages/Home";
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useParams,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Books from "./pages/Books";
 import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
 
-
 function App() {
   const [cart, setCart] = useState([]);
-  const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   function updateCart(id, newQuantity) {
     setCart((oldCart) =>

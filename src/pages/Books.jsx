@@ -6,7 +6,7 @@ import axios from "axios";
 function Books({ }) {
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const id = books.cover_edition_key || books.cover_i || encodeURIComponent(books.title);
@@ -50,8 +50,9 @@ function Books({ }) {
         key: item.key,
         cover_edition_key: item.cover_edition_key,
       }));
-      setBooks(books);
+      setBooks(books, id);
     }
+    setLoading(false)
   }, [data, setBooks]);
 
 
@@ -84,7 +85,7 @@ console.log(books);
                     {" "}
                     Start search{" "}
                   </button>
-                  <script src="app.js">result</script>
+                  {/* <script src="app.js">result</script> */}
                 </div>
                 <div className="books-list">
                   {books.map((book) => (
