@@ -7,7 +7,6 @@ function Book({ book, books }) {
   const [img, setImg] = useState([]);
   const [loading, setLoading] = useState();
 
-
   return (
     <div className="book">
       {loading ? (

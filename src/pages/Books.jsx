@@ -55,10 +55,6 @@ function Books({ }) {
     setLoading(false)
   }, [data, setBooks]);
 
-
-console.log(books);
-
-
   if (!Array.isArray({ books })) {
     if (!Array.isArray(books) || books.length === 0) {
       // return <p>Loading books..</p>;

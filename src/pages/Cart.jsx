@@ -3,19 +3,22 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import EmptyCart from "../assets/empty_cart.svg";
+import Price from "../components/ui/Price";
 
 
-const Cart = ({ updateCart, removeItem, totals, price, item }) => {
+const Cart = ({ updateCart, removeItem, totals, price, book, cart, quantity }) => {
   const itemPrice = price;
-  const id = cart.cover_edition_key || cart.cover_i || encodeURIComponent(cart.title);
-  const [cart, setCart] = useState([]);
-  
-  if (!cart) {
+  const cartArray = JSON.parse(localStorage.getItem('cart') || '[]')
+  const filteredData = cartArray.filter(item => item.length > 0);
+  const id = filteredData[0].cover_edition_key || filteredData[0].cover_i || filteredData[0].title;
+  const [oldCart, setCart] = useState([]);
+
+  if (id) {
     return <p>cart not found</p>;
   }
 
-  function updateCart(id, newQuantity, price, book) {
-    setCart((oldCart) =>
+  function updateCart( newQuantity, price, book ) {
+    setCart((cart) =>
       oldCart.map((oldId) => {
         if (oldId.book === book) {
           return {
@@ -25,35 +28,36 @@ const Cart = ({ updateCart, removeItem, totals, price, item }) => {
         } else {
           return oldId;
         }
-      }, [cart])
+      }, [])
     );
   }
 
-  // function removeItem(id) {
-  //   setCart((oldCart) => oldCart.filter((cartId) => cartId.title !== id.title));
-  // }
+  function removeItem(id) {
+    setCart((filteredData) => filteredData.filter((cartId) => cartId.title !== id.title));
+  }
 
-  // function numberOfItems() {
-  //   let counter = 0;
-  //   cart.forEach((id) => {
-  //     counter += +id.quantity;
-  //   });
-  //   return counter;
-  // }
+  function numberOfItems() {
+    let counter = 0;
+    cart.forEach((id) => {
+      counter += +cart.quantity;
+    });
+    return counter;
+  }
 
-  // function calcPrices() {
-  //   let total = 0;
-  //   cart.forEach((id) => {
-  //     total += (id.salePrice || id.originalPrice) * id.quantity;
-  //   });
-  //   return {
-  //     subtotal: total * 0.9,
-  //     tax: total * 0.1,
-  //     total,
-  //   };
-  // }
+  function calcPrices() {
+    let total = 0;
+    cart.forEach((id) => {
+      total += (id.salePrice || id.originalPrice) * id.quantity;
+    });
+    return {
+      subtotal: total * 0.9,
+      tax: total * 0.1,
+      total,
+    };
+  }
 
-  console.log(cart);
+  console.log(filteredData);
+  console.log(id)
 
   return (
     <div id="books__body">
@@ -70,31 +74,32 @@ const Cart = ({ updateCart, removeItem, totals, price, item }) => {
                 <span className="cart__total">Price</span>
               </div>
               <div className="cart__body">
-                {cart.map((item) => {
+                {filteredData.map((id) => {
                   return (
-                    <div className="cart__item" key={id}>
+                    <div className="cart__item" >
                       <div className="cart__book">
                         {" "}
                         books
                         <img
                           className="cart__book--img"
                           src={
-                            item.cover_i
-                              ? `https://covers.openlibrary.org/b/id/${item.cover_i}-L.jpg`
+                            cartArray.cover_i
+                              ? `https://covers.openlibrary.org/b/id/${cartArray.cover_i}-L.jpg`
                               : "fallback.jpg"
                           }
                           alt=""
                         />
                         <div className="cart__book--info">
                           <span className="cart__book--title">
-                            {item.title}
+                            {filteredData[1,0].title}
                           </span>
                           <span className="cart__book--price">
-                            ${itemPrice.toFixed(2)}
+                            <Price/>
+                            {/* ${itemPrice.toFixed(2)} */}
                           </span>
                           <button
                             className="cart__book--remove"
-                            onClick={() => removeItem(id)}
+                            onClick={() => removeItem(cart)}
                           >
                             Remove
                           </button>
@@ -106,30 +111,30 @@ const Cart = ({ updateCart, removeItem, totals, price, item }) => {
                           className="cart__input"
                           min={0}
                           max={99}
-                          value={item.quantity}
+                          value={cart.quantity}
                           onChange={(event) =>
-                            updateCart(item, event.target.value)
+                            updateCart(cartArray[0,0], event.target.value)
                           }
                         />
                       </div>
                       <div className="cart__total">
-                        ${(price * item.quantity).toFixed(2)}
+                        ${(price * cart.quantity).toFixed(2)}
                       </div>
                     </div>
                   );
                 })}
-                {(!cart || !item.length) && <img src={EmptyCart} />}
-                {(!cart || !item.length) && (
+                {/* {(!cartArray || !cartArray.length) && <img src={EmptyCart} />}
+                {(!cartArray || !cartArray.length) && (
                   <div className="cart__empty">
                     <h2>You don't have any books in your cart!</h2>
                     <Link to="/books">
                       <button className="btn">Browse books</button>
                     </Link>
                   </div>
-                )}
+                )} */}
               </div>
             </div>
-            {cart && cart.length > 0 && (
+            {oldCart && oldCart.length > 0 && (
               <div className="total">
                 <div className="total__item total__sub-total">
                   <span>Subtotal</span>

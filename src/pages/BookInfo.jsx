@@ -14,8 +14,13 @@ function BookInfo({ addItemToCart }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [quantity, setQuantity] = useState([]);
+  const existingCart = JSON.parse(localStorage.getItem("cart")) || {};
+  existingCart.push(book);
+  localStorage.setItem('cart', JSON.stringify(existingCart))
+  
 
- useEffect(() => {
+  useEffect(() => {
     async function fetchBook() {
       try {
         setLoading(true); // set loading true before loading
@@ -34,24 +39,23 @@ function BookInfo({ addItemToCart }) {
   }, []);
 
   useEffect(() => {
-      if (!data.docs || (data.length > 0)) {
-        const slicedData = data.slice(0, 1);
-        const book = slicedData.map((item) => ({
-          title: item.title,
-          author_name: item.author_name,
-          cover_i: item.cover_i,
-          key: item.key,
-          cover_edition_key: item.cover_edition_key,
-          first_publish_year: item.first_publish_year
-        }));
-        setBook(book);
-      }
-    }, [data]);
+    if (!data || data.length > 0) {
+      const slicedData = data.slice(0, 1);
+      const book = slicedData.map((item) => ({
+        title: item.title,
+        author_name: item.author_name,
+        cover_i: item.cover_i,
+        key: item.key,
+        cover_edition_key: item.cover_edition_key,
+        first_publish_year: item.first_publish_year,
+      }));
+      setBook(book);
+    }
+  }, [data, setBook]);
 
-    if (!book || book.length === 0) {
+  if (!book || book.length === 0) {
     <p>Loading book...</p>;
   }
-
 
   useEffect(() => {
     const img = new Image();
@@ -75,7 +79,8 @@ function BookInfo({ addItemToCart }) {
 
   function addItemToCart(book) {
     console.log(`adding to cart:${book[0].title}`);
-    const dupeItem = cart.find((book) => book.id && book);
+    const dupeItem = cart.find((book) => book.title && book);
+    setQuantity(quantity)
     setCart((oldCart) =>
       dupeItem
         ? oldCart.map((cartItem) => {
@@ -85,9 +90,9 @@ function BookInfo({ addItemToCart }) {
           })
         : [...oldCart, { ...book, quantity: 1 }]
     );
+    // localStorage.setItem('cart', JSON.stringify(cart));
+    console.log('cart updated:', cart);
   }
-
-  console.log(book);
 
   return (
     <div id="books__body">
@@ -146,16 +151,21 @@ function BookInfo({ addItemToCart }) {
                           odit.
                         </p>
                         <Price />
-                        <Link to="/cart">
                           <button
                             className="btn"
-                            onClick={() => addItemToCart(book)}
+                            onClick={() => addItemToCart(book) }
                           >
                             Add to Cart
                           </button>
-                        </Link>
                         <div className="cart__BookInfo--link">
-                          <Cart cart={cart} title={book.title} price={book.price} book={book}/>
+                          <Cart
+                            cart={cart}
+                            item={book.item}
+                            title={book.title}
+                            price={book.price}
+                            book={book}
+                            quantity={book.quantity}
+                          />
                         </div>
                       </div>
                     </div>
