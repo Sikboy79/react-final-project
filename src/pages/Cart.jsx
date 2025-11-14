@@ -15,34 +15,23 @@ const Cart = ({
   const itemPrice = price;
   const cartArray = JSON.parse(localStorage.getItem("cart") || "[]");
   const filteredData = cartArray.filter((item) => item.length > 0);
-  // const id = filteredData[3].cover_edition_key || filteredData[3].cover_i || filteredData[3].title;
   const [oldCart, setCart] = useState([]);
 
-  // if (id) {
-  //   return <p>cart not found</p>;
-  // }
-
   function processNestedArrays(filteredData) {
-    for (let i = 0; i < filteredData.length; i++) {
-      const innerArray = filteredData[i];
-      console.log("Processing inner array:", innerArray);
-
-      for (let j = 0; j < innerArray.length; j++) {
-        const element = innerArray[j];
-        console.log("  Element:", element);
+    filteredData.forEach((innerArray, index) => {
+      if (Array.isArray(innerArray)) {
+        innerArray.forEach((item, innerIndex) => {
+          // Assign a unique ID using the indices from both levels.
+          item.id = `item-${index}-${innerIndex}`;
+          // console.log(`Assigned ID: ${item.id} to item`, item);
+        });
       }
-    }
+    });
   }
-
-  const data = [
-    []
-  ];
   processNestedArrays(filteredData);
 
-  console.log(data)
-
-  function updateCart(newQuantity, price, book) {
-    setCart((cart) =>
+  function updateCart(newQuantity, book) {
+    setCart((filteredData) =>
       oldCart.map((oldId) => {
         if (oldId.book === book) {
           return {
@@ -58,7 +47,7 @@ const Cart = ({
 
   function removeItem(id) {
     setCart((filteredData) =>
-      filteredData.filter((cartId) => cartId.title !== id.title)
+      filteredData.filter((filteredData) => filteredData.id !== id.title)
     );
   }
 
@@ -82,9 +71,6 @@ const Cart = ({
     };
   }
 
-  
-  // console.log(id)
-
   return (
     <div id="books__body">
       <main id="books__main">
@@ -100,28 +86,26 @@ const Cart = ({
                 <span className="cart__total">Price</span>
               </div>
               <div className="cart__body">
-                {filteredData.map((id) => {
+                {filteredData[1].map((Array) => {
                   return (
                     <div className="cart__item">
                       <div className="cart__book">
                         {" "}
-                        books
                         <img
                           className="cart__book--img"
                           src={
-                            cartArray.cover_i
-                              ? `https://covers.openlibrary.org/b/id/${cartArray.cover_i}-L.jpg`
+                            Array.cover_i
+                              ? `https://covers.openlibrary.org/b/id/${Array.cover_i}-L.jpg`
                               : "fallback.jpg"
                           }
                           alt=""
                         />
                         <div className="cart__book--info">
                           <span className="cart__book--title">
-                            {filteredData[(1, 0)].title}
+                            {Array.title}
                           </span>
                           <span className="cart__book--price">
                             <Price />
-                            {/* ${itemPrice.toFixed(2)} */}
                           </span>
                           <button
                             className="cart__book--remove"
