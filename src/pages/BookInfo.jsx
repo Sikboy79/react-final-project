@@ -5,8 +5,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 import Cart from "./Cart";
 import axios from "axios";
+import { addItemToCart } from "../Cart";
 
-function BookInfo({ addItemToCart }) {
+function BookInfo({ }) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [img, setImage] = useState([]);
@@ -14,11 +15,7 @@ function BookInfo({ addItemToCart }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [quantity, setQuantity] = useState([]);
-  const existingCart = JSON.parse(localStorage.getItem("cart")) || {};
-  existingCart.push(book);
-  localStorage.setItem('cart', JSON.stringify(existingCart))
-  
+  // const [quantity, setQuantity] = useState([]);
 
   useEffect(() => {
     async function fetchBook() {
@@ -77,22 +74,6 @@ function BookInfo({ addItemToCart }) {
     return <p> loading...</p>;
   }
 
-  function addItemToCart(book) {
-    console.log(`adding to cart:${book[0].title}`);
-    const dupeItem = cart.find((book) => book.title && book);
-    setQuantity(quantity)
-    setCart((oldCart) =>
-      dupeItem
-        ? oldCart.map((cartItem) => {
-            return cartItem.id === dupeItem.id
-              ? { ...cartItem, quantity: cartItem.quantity + 1 }
-              : cartItem;
-          })
-        : [...oldCart, { ...book, quantity: 1 }]
-    );
-    // localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('cart updated:', cart);
-  }
 
   return (
     <div id="books__body">

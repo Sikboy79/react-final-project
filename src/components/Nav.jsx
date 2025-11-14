@@ -57,11 +57,6 @@ const Nav = ({ numberOfItems }) => {
                 Books
               </Link>
             </li>
-            {/* <li className="menu__list">
-              <Link to="/cart" className="menu__link" onClick={closeMenu}>
-                Cart
-              </Link>
-            </li> */}
           </ul>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -7,99 +7,58 @@ import BookInfo from "./pages/BookInfo";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
 import Cart from "./pages/Cart";
+import { readCart } from "../src/Cart";
 
 function App() {
-  const [cart, setCart] = useState([]);
   const [books, setBooks] = useState([]);
 
-  function updateCart(id, newQuantity) {
-    setCart((oldCart) =>
-      oldCart.map((oldId) => {
-        if (oldId.title === id.tile) {
-          return {
-            ...oldId,
-            quantity: newQuantity,
-          };
-        } else {
-          return oldId;
-        }
-      })
+  const [cartCount, setCartCount] = useState(() =>
+    readCart().reduce((sum, it) => sum + Number(it.quantity || 1), 0)
+  );
+
+  useEffect(() => {
+    const initial = readCart().reduce(
+      (sum, it) => sum + Number(it.quantity || 1),
+
+      0
     );
-  }
 
-  function updateCart(item, newQuantity) {
-    setCart((oldCart) =>
-      oldCart.map((oldItem) => {
-        if (oldItem.title === item.tile) {
-          return {
-            ...oldItem,
-            quantity: newQuantity,
-          };
-        } else {
-          return oldItem;
-        }
-      })
-    );
-  }
+    setCartCount(initial);
 
-  function removeItem(item) {
-    setCart((oldCart) =>
-      oldCart.filter((cartItem) => cartItem.title !== item.title)
-    );
-  }
+    const handler = (e) => {
+      const next = (e.detail?.cart || []).reduce(
+        (sum, it) => sum + Number(it.quantity || 1),
 
-  function numberOfItems() {
-    let counter = 0;
-    cart.forEach((item) => {
-      counter += +item.quantity;
-    });
-    return counter;
-  }
+        0
+      );
 
-  function calcPrices() {
-    let total = 0;
-    cart.forEach((item) => {
-      total += (item.salePrice || item.originalPrice) * item.quantity;
-    });
-    return {
-      subtotal: total * 0.9,
-      tax: total * 0.1,
-      total,
+      setCartCount(next);
     };
-  }
+
+    window.addEventListener("cart:updated", handler);
+
+    return () => window.removeEventListener("cart:updated", handler);
+  }, []);
+
   return (
     <Router>
       <div className="App">
-        <Nav numberOfItems={numberOfItems()} />
+        <Nav numberOfItems={cartCount} />
+
         <Routes>
           <Route path="/" element={<Home />} />
+
           <Route path="/books" element={<Books books={books} />} />
-          <Route
-            path="/book/:id"
-            element={
-              <BookInfo
-                books={books}
-                addItemToCart={books.title}
-                updateCart={books.title}
-              />
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <Cart
-                books={books}
-                cart={cart}
-                updateCart={updateCart}
-                removeItem={removeItem}
-                totals={calcPrices()}
-              />
-            }
-          />
+
+          <Route path="/book/:id" element={<BookInfo />} />
+
+          <Route path="/cart" element={<Cart />} />
         </Routes>
+
         <Footer />
       </div>
     </Router>
   );
 }
+
 export default App;
