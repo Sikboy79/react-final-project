@@ -6,8 +6,9 @@ import { Link } from "react-router-dom";
 import Cart from "./Cart";
 import axios from "axios";
 import { addItemToCart } from "../Cart";
+import Skeleton from "../components/Skeleton";
 
-function BookInfo({ }) {
+function BookInfo({}) {
   const { id } = useParams();
   const [cart, setCart] = useState([]);
   const [img, setImage] = useState([]);
@@ -74,7 +75,6 @@ function BookInfo({ }) {
     return <p> loading...</p>;
   }
 
-
   return (
     <div id="books__body">
       <main id="books__main">
@@ -90,66 +90,68 @@ function BookInfo({ }) {
               <div className="book__selected--description">
                 <figure className="book__img--wrapper">
                   <div className="book_info">
-                    <img
-                      className="img"
-                      src={
-                        book[0].cover_i
-                          ? `https://covers.openlibrary.org/b/id/${book[0].cover_i}-L.jpg`
-                          : "fallback.jpg"
-                      }
-                      alt={book.title}
-                    />
-                    <div className="book_description">
-                      <p className="book_title">
-                        {" "}
-                        <span className="black">Title: </span>
-                        {Array.isArray(book[0].title)
-                          ? book[0].title
-                          : book[0].title}
-                      </p>
-                      <p className="book_author">
-                        {" "}
-                        <span className="black">Author: </span>
-                        {Array.isArray(book[0].author_name)
-                          ? book[0].author_name
-                          : book[0].author_name}
-                      </p>
-                      <p className="published">
-                        {" "}
-                        <span className="black">First published: </span>
-                        {Array.isArray(book[0].first_publish_year)
-                          ? book[0].first_publish_year
-                          : book[0].first_publish_year}
-                      </p>
-                      <div className="book_description-text">
-                        <p>
+                    <>
+                      <img
+                        className="img"
+                        src={
+                          book[0].cover_i
+                            ? `https://covers.openlibrary.org/b/id/${book[0].cover_i}-L.jpg`
+                            : "fallback.jpg"
+                        }
+                        alt={book.title}
+                      />
+                      <div className="book_description">
+                        <p className="book_title">
                           {" "}
-                          <span className="black">Book Description: </span>
-                          Lorem ipsum dolor sit amet consectetur adipisicing
-                          elit. Fugit in dolor incidunt labore, voluptate
-                          aliquid illum facere, pariatur repellendus ab sit
-                          fugiat eligendi hic ad qui aperiam cumque? Animi,
-                          odit.
+                          <span className="black">Title: </span>
+                          {Array.isArray(book[0].title)
+                            ? book[0].title
+                            : book[0].title}
                         </p>
-                        <Price />
+                        <p className="book_author">
+                          {" "}
+                          <span className="black">Author: </span>
+                          {Array.isArray(book[0].author_name)
+                            ? book[0].author_name
+                            : book[0].author_name}
+                        </p>
+                        <p className="published">
+                          {" "}
+                          <span className="black">First published: </span>
+                          {Array.isArray(book[0].first_publish_year)
+                            ? book[0].first_publish_year
+                            : book[0].first_publish_year}
+                        </p>
+                        <div className="book_description-text">
+                          <p>
+                            {" "}
+                            <span className="black">Book Description: </span>
+                            Lorem ipsum dolor sit amet consectetur adipisicing
+                            elit. Fugit in dolor incidunt labore, voluptate
+                            aliquid illum facere, pariatur repellendus ab sit
+                            fugiat eligendi hic ad qui aperiam cumque? Animi,
+                            odit.
+                          </p>
+                          <Price />
                           <button
                             className="btn"
-                            onClick={() => addItemToCart(book) }
+                            onClick={() => addItemToCart(book)}
                           >
                             Add to Cart
                           </button>
-                        <div className="cart__BookInfo--link">
-                          <Cart
-                            cart={cart}
-                            item={book.item}
-                            title={book.title}
-                            price={book.price}
-                            book={book}
-                            quantity={book.quantity}
-                          />
+                          <div className="cart__BookInfo--link">
+                            <Cart
+                              cart={cart}
+                              item={book.item}
+                              title={book.title}
+                              price={book.price}
+                              book={book}
+                              quantity={book.quantity}
+                            />
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </>
                   </div>
                 </figure>
               </div>

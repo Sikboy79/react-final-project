@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Book from "./Book";
 import Price from "../components/ui/Price";
 import axios from "axios";
+import Skeleton from "../components/Skeleton";
 
 function Books({ }) {
   const [data, setData] = useState([]);
   const [books, setBooks] = useState([]);
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchValue, setSearchValue] = useState("");
   const id = books.cover_edition_key || books.cover_i || encodeURIComponent(books.title);

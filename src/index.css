@@ -415,39 +415,40 @@ FEATURES
   user-select: none;
 }
 
+.skeleton__home--wrapper {
+  display: flex;
+  height: 50%;
+  margin-top: 24px;
+}
+
+.skeleton__home--card {
+  width: 25%;
+  padding: 24px;
+  transition: all 300ms ease;
+}
+
 .book__img--skeleton {
-  width: 100%;
-  max-width: 250px;
-  height: 320px;
+  width: 90%;
+  max-width: 1200px;
+  height: 30vh;
   background-color: rgb(204, 204, 204);
   margin-bottom: 8px;
 }
 
-.book__img--skeleton-home {
-  width: 100%;
-  max-width: 150px;
-  height: 250px;
-  background-color: rgb(204, 204, 204);
-  margin-bottom: 8px;
-}
 
 .skeleton {
   background-color: rgb(227, 227, 227) !important;
   margin-bottom: 8px;
 }
 
-.book__title--skeleton {
-  height: 21px;
-  width: 100%;
-}
 
 .book__rating--skeleton {
-  width: 100px;
+  width: 50px;
   height: 19px;
 }
 
 .book__price--skeleton {
-  width: 200px;
+  width: 100px;
   height: 19px;
 }
 

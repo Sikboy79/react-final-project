@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { Link, useParams } from "react-router-dom";
 import Price from "../components/ui/Price";
 import Book from "./Book";
+import Skeleton from "../components/Skeleton";
 
 function Home({ cover_i }) {
   const [data, setData] = useState([]);
@@ -11,21 +12,20 @@ function Home({ cover_i }) {
   const [homeBooks, setHomeBooks] = useState([]);
   const [img, setImg] = useState([]);
   const scrollRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
+  const [isDragging, setIsDragging] = useState(true);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        setLoading(true); // set loading true before loading
         const { data } = await axios.get(
           "https://openlibrary.org/search.json?q=random"
         );
         setData(data.docs);
         setError(null);
       } catch (err) {
-        setError("failed to load books"); //clear previous error
+        setError("failed to load books");
       } finally {
         setLoading(false);
       }
@@ -63,10 +63,6 @@ function Home({ cover_i }) {
         }
       }, 300);
     };
-    return () => {
-      // When the component unmounts
-      mountedRef.current = false;
-    };
   }, []);
 
   const handleMouseDown = (e) => {
@@ -93,6 +89,14 @@ function Home({ cover_i }) {
     const walk = x - startX; // The distance the mouse has moved
     scrollRef.current.scrollLeft = scrollLeft - walk; // Adjust scroll position
   };
+
+  if (loading) {
+    return <Skeleton />;
+  }
+
+  if (error) {
+    return <div>Error: {error.message}</div>;
+  }
 
   return (
     <div className="home-book">
