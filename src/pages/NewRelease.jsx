@@ -1,16 +1,14 @@
 import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
-// import { Link, useParams } from "react-router-dom";
 import Price from "../components/ui/Price";
 import Book from "./Book";
 import Skeleton from "../components/Skeleton";
-import NewRelease from "./NewRelease";
 
-function Home({ cover_i }) {
+function NewRelease({ cover_i }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [homeBooks, setHomeBooks] = useState([]);
+  const [newRelease, setNewRelease] = useState([]);
   const [img, setImg] = useState([]);
   const scrollRef = useRef(null);
   const [isDragging, setIsDragging] = useState(true);
@@ -21,7 +19,7 @@ function Home({ cover_i }) {
     async function fetchData() {
       try {
         const { data } = await axios.get(
-          "https://openlibrary.org/search.json?q=random"
+          "https://openlibrary.org/search.json?q=current"
         );
         setData(data.docs);
         setError(null);
@@ -37,20 +35,20 @@ function Home({ cover_i }) {
   useEffect(() => {
     if (!data.docs || (data.length && 0)) {
       const slicedData = data.slice(0, 15);
-      const homeBooks = slicedData.map((item) => ({
+      const newRelease = slicedData.map((item) => ({
         title: item.title,
         author_name: item.author_name,
         cover_i: item.cover_i,
         key: item.key,
         cover_edition_key: item.cover_edition_key,
       }));
-      setHomeBooks(homeBooks);
+      setNewRelease(newRelease);
     }
-  }, [data, setHomeBooks]);
+  }, [data, setNewRelease]);
 
   // When routes switch dont set image to unmounted component
   const mountedRef = useRef(true);
-  if (!homeBooks || homeBooks.length === 0) {
+  if (!newRelease || newRelease.length === 0) {
     <p>Loading book...</p>;
   }
 
@@ -102,7 +100,7 @@ function Home({ cover_i }) {
   return (
     <div className="home-book">
       <>
-        <h2>Recomended Books:</h2>
+        <h2>New Release Books:</h2>
         <div
           className="book_card-home fade-in-element"
           ref={scrollRef}
@@ -111,7 +109,7 @@ function Home({ cover_i }) {
           onMouseUp={handleMouseUp}
           onMouseMove={handleMouseMove}
         >
-          {homeBooks.map((book) => (
+          {newRelease.map((book) => (
             <Book
               key={
                 book.key || book.cover_edition_key || book.cover_i || book.title
@@ -120,10 +118,9 @@ function Home({ cover_i }) {
             />
           ))}
         </div>
-        < NewRelease/>
       </>
     </div>
   );
 }
 
-export default Home;
+export default NewRelease;

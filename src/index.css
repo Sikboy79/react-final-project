@@ -255,10 +255,8 @@ header {
 .header__img--wrapper {
   padding: 20px;
 
-  
   z-index: 50;
 
-  
   max-height: 50vh;
 }
 
@@ -366,9 +364,50 @@ FEATURES
 
 */
 
-#features {
+/* #features {
   padding-top: 8vw;
   background-color: rgba(115, 66, 214, 0.1);
+} */
+
+.search-field {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  margin: 20px auto;
+  border: 2px solid #7342d6;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#searchInput {
+  flex-grow: 1;
+  padding: 10px 15px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+#searchInput::placeholder {
+  color: #a0a0a0;
+}
+
+#search_btn {
+  padding: 10px 20px;
+  background-color: #5a13be;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+#search_btn:hover {
+  background-color: #1d7bdf;
+}
+
+#search_btn:active {
+  background-color: #004085;
 }
 
 .book_card-home {
@@ -377,10 +416,33 @@ FEATURES
   overflow: hidden;
   background-color: #dfedf9;
   overflow-x: scroll hidden;
+  animation: infinite-scroll 20s linear infinite;
   transition: all 300ms ease;
   margin: 0 auto;
   cursor: grab;
   user-select: none;
+}
+
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.fade-in-element {
+  animation: fadeIn 2s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .books-list {
@@ -415,10 +477,31 @@ FEATURES
   user-select: none;
 }
 
+.skeleton__books--wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 24px;
+  margin: 0 auto;
+  transition: all 300ms ease;
+}
+
+.skeleton__books--card {
+  padding: 24px;
+}
+
+.book__img--skeleton-books {
+  width: 15vw;
+  max-width: 1200px;
+  height: 50vh;
+  background-color: rgb(204, 204, 204);
+  transition: all 300ms ease;
+}
+
 .skeleton__home--wrapper {
   display: flex;
   height: 50%;
   margin-top: 24px;
+  transition: all 300ms ease;
 }
 
 .skeleton__home--card {
@@ -433,23 +516,39 @@ FEATURES
   height: 30vh;
   background-color: rgb(204, 204, 204);
   margin-bottom: 8px;
+  transition: all 300ms ease;
 }
-
 
 .skeleton {
   background-color: rgb(227, 227, 227) !important;
   margin-bottom: 8px;
+  transition: all 300ms ease;
 }
-
 
 .book__rating--skeleton {
   width: 50px;
   height: 19px;
+  transition: all 300ms ease;
 }
 
 .book__price--skeleton {
   width: 100px;
   height: 19px;
+  transition: all 300ms ease;
+}
+
+.skeleton {
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
 .book__link {
@@ -519,9 +618,9 @@ EXPLORE
 
 */
 
-#explore {
+/* #explore {
   background-color: rgba(115, 66, 214, 0.1);
-}
+} */
 
 /* 
 

@@ -1,40 +1,28 @@
 import React, { useEffect, useState } from "react";
-
 import { Link } from "react-router-dom";
-
 import EmptyCart from "../assets/empty_cart.svg";
-
 import Price from "../components/ui/Price";
-
 import { readCart, updateQuantity, removeFromCart } from "../Cart";
-
 const Cart = () => {
   const [items, setItems] = useState(readCart());
-
   useEffect(() => {
     setItems(readCart());
   }, []);
-
   const handleQtyChange = (id, value) => {
     const updated = updateQuantity(id, value);
-
     setItems(updated);
   };
 
   const handleRemove = (book) => {
     const updated = removeFromCart(book);
-
     setItems(updated);
   };
 
   const subtotal = items.reduce(
     (sum, it) => sum + 9.99 * Number(it.quantity || 1),
-
     0
   );
-
   const tax = subtotal * 0.1;
-
   const total = subtotal + tax;
 
   console.log(items)
@@ -59,7 +47,7 @@ const Cart = () => {
               </div>
 
               <div className="cart__body">
-                {items.length < 0 ? (
+                {items && items.length <= 0 ? (
                   <div className="cart__empty">
                     <img src={EmptyCart} alt="Empty cart" />
 
