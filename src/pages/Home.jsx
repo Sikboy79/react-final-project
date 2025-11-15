@@ -87,8 +87,8 @@ function Home({ cover_i }) {
     if (!isDragging) return;
     e.preventDefault();
     const x = e.pageX - scrollRef.current.offsetLeft;
-    const walk = x - startX; // The distance the mouse has moved
-    scrollRef.current.scrollLeft = scrollLeft - walk; // Adjust scroll position
+    const walk = x - startX; 
+    scrollRef.current.scrollLeft = scrollLeft - walk; 
   };
 
   if (loading) {

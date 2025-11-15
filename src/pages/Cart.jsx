@@ -25,7 +25,7 @@ const Cart = () => {
   const tax = subtotal * 0.1;
   const total = subtotal + tax;
 
-  console.log(items)
+  // console.log(items)
   
 
   return (

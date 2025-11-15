@@ -498,16 +498,21 @@ FEATURES
 }
 
 .skeleton__home--wrapper {
+  max-width: 1200px;
   display: flex;
   height: 50%;
-  margin-top: 24px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: center;
   transition: all 300ms ease;
+  overflow: hidden;
 }
 
 .skeleton__home--card {
   width: 25%;
   padding: 24px;
   transition: all 300ms ease;
+
 }
 
 .book__img--skeleton {

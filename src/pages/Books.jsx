@@ -16,7 +16,7 @@ function Books({}) {
   const handleInputChange = (event) => {
     const query = event.target.value;
     setSearchValue(query);
-    filterResults(query);
+    // filterResults(query);
   };
 
   const handleSearchClick = () => {
